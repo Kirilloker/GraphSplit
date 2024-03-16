@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-
-namespace GraphSplit.GraphElements
+﻿namespace GraphSplit.GraphElements
 {
     public class Vertex
     {

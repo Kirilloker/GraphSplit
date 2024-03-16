@@ -9,7 +9,7 @@ namespace GraphSplit
     {
         private ControlButtons controlButtons;
         private Tip tip = new Tip();
-        private Navbar navbar = new Navbar();
+        private Navbar navbar;
         private PaintArea paintArea;
 
         private Command command = Command.None;
@@ -35,20 +35,63 @@ namespace GraphSplit
         {
             controlButtons = new ControlButtons(this);
             paintArea = new PaintArea(this);
+            navbar = new Navbar(this);
 
             MinimumSize = new Size(800, 600);
             MaximumSize = new Size(1300, 800);
 
             Controls.AddRange(new Control[] { controlButtons.Initialize(), paintArea.Initialize(), navbar.Initialize()});
 
+            navbar.paintArea = paintArea;
+
             tip.Initialize(GetButtons());
+
+            SelectedCommand(Command.AddVertex);
         }
 
         public static MainForm GetInstance() => instance ??= new MainForm();
         private static MainForm instance;
 
+
+        public event EventHandler UndoCommand;
+        public event EventHandler SaveCommand;
+        public event EventHandler SaveAsCommand;
+
+        protected virtual void OnUndoCommand()
+        {
+            UndoCommand?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnSaveCommand()
+        {
+            SaveCommand?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected virtual void OnSaveAsCommand()
+        {
+            SaveAsCommand?.Invoke(this, EventArgs.Empty);
+        }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            if (keyData == (Keys.Control | Keys.Shift | Keys.S))
+            {
+                OnSaveAsCommand();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.Z))
+            {
+                OnUndoCommand();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.S)) 
+            {
+                OnSaveCommand();
+                return true;
+            }
+
             if (keyCommandMap.TryGetValue(keyData, out Command cmd))
             {
                 SelectedCommand(cmd);
@@ -62,6 +105,22 @@ namespace GraphSplit
         {
             command = selectedCommand;
             EventSelectedCommand?.Invoke(this, new CommandEventArgs(selectedCommand));
+        }
+
+        private string lastUseName = string.Empty;
+
+        public string LastUseName
+        {
+            get => lastUseName;
+            set
+            {
+                lastUseName = value;
+                string nameForm = "Редактор графов ";
+                nameForm += "(";
+                nameForm += string.IsNullOrEmpty(lastUseName) ? "*" : lastUseName;
+                nameForm += ")";
+                this.Text = nameForm;
+            }
         }
 
         public List<Button> GetButtons() => controlButtons.GetButtons();

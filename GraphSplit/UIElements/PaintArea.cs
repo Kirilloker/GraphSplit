@@ -1,4 +1,5 @@
 ﻿using GraphSplit.GraphElements;
+using GraphSplit.JSON;
 
 namespace GraphSplit.UIElements
 {
@@ -6,7 +7,7 @@ namespace GraphSplit.UIElements
     {
         private PictureBox pictureBox;
         private readonly MainForm mainForm;
-        private readonly List<Vertex> vertices = new List<Vertex>();
+        private List<Vertex> vertices = new List<Vertex>();
         private Vertex draggedVertex = null;
         private Point lastMouseLocation;
 
@@ -15,6 +16,7 @@ namespace GraphSplit.UIElements
         { 
             this.mainForm = mainForm;
             this.mainForm.EventSelectedCommand += MainForm_SelectedCommand;
+            this.mainForm.UndoCommand += MainForm_UndoCommand;
         }
 
         public PictureBox Initialize()
@@ -217,6 +219,17 @@ namespace GraphSplit.UIElements
             CommandChange(e.Command);
         }
 
+        private void MainForm_UndoCommand(object sender, EventArgs e) 
+        {
+
+        }
+
+        public void Load(List<Vertex> vertices) 
+        {
+            this.vertices = vertices;
+            pictureBox.Invalidate();
+        }
+
         public void CommandChange(Command command) 
         {
             if (draggedVertex != null) 
@@ -226,5 +239,7 @@ namespace GraphSplit.UIElements
 
             pictureBox.Invalidate();
         }
+
+        public List<Vertex> GetVertices() => vertices;
     }
 }
