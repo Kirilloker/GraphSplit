@@ -5,16 +5,31 @@ namespace GraphSplit.UIElements
 {
     public partial class ControlButtons
     {
-        MainForm mainForm;
+        Panel toolPanel;
         private List<Button> buttons;
         private Button but_addVertex = new();
         private Button but_addEdge = new();
         private Button but_deleteElement = new();
-        public ControlButtons() { mainForm = MainForm.GetInstance(); }
 
 
-        public List<Button> Initialize() 
+        private MainForm mainForm;
+
+        public ControlButtons(MainForm mainForm) 
         {
+            this.mainForm = mainForm;
+            this.mainForm.EventSelectedCommand += MainForm_SelectedCommand;
+        }
+
+
+        public Panel Initialize() 
+        {
+            toolPanel = new Panel();
+            toolPanel.BackColor = Color.Gray;
+            toolPanel.Dock = DockStyle.Left;
+            toolPanel.Width = 100;
+
+
+
             buttons = new List<Button>
             {
                 but_addVertex,
@@ -40,12 +55,23 @@ namespace GraphSplit.UIElements
             buttons[(int)Command.DeleteElement].Image = Image.FromFile($"DeleteElementIcon.png");
             buttons[(int)Command.DeleteElement].Click += ButtonDeleteElement_Click;
 
-            return buttons;
+
+            foreach (var button in buttons)
+                toolPanel.Controls.Add(button);
+
+
+
+            return toolPanel;
         }
 
         private void ButtonAddVertex_Click(object sender, EventArgs e) => mainForm.SelectedCommand(Command.AddVertex);
         private void ButtonAddEdge_Click(object sender, EventArgs e) => mainForm.SelectedCommand(Command.AddEdge);
         private void ButtonDeleteElement_Click(object sender, EventArgs e) => mainForm.SelectedCommand(Command.DeleteElement);
+
+        private void MainForm_SelectedCommand(object sender, CommandEventArgs e)
+        {
+            TurnLight(e.Command);
+        }
 
         public void TurnLight(Command command) 
         {
@@ -55,6 +81,6 @@ namespace GraphSplit.UIElements
             buttons[(int)command].BackColor = Color.Red;
         }
 
-        public List<Button> getButtons() => buttons;
+        public List<Button> GetButtons() => buttons;
     }
 }

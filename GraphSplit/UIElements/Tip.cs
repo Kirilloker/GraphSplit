@@ -11,10 +11,6 @@ namespace GraphSplit.UIElements
         {
             List<Button> buttons = MainForm.GetInstance().GetButtons();
             ToolTip toolTip = new ToolTip();
-            toolTip.AutoPopDelay = 5000;
-            toolTip.InitialDelay = 500;
-            toolTip.ReshowDelay = 500;
-            toolTip.ShowAlways = false;
 
             void AttachMouseEnterHandler(Button button, string tooltipText)
             {

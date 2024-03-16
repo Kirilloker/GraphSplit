@@ -13,7 +13,11 @@ namespace GraphSplit.UIElements
         private Point lastMouseLocation;
 
 
-        public PaintArea() { mainForm = MainForm.GetInstance(); }
+        public PaintArea(MainForm mainForm) 
+        { 
+            this.mainForm = mainForm;
+            this.mainForm.EventSelectedCommand += MainForm_SelectedCommand;
+        }
 
 
         public PictureBox Initialize()
@@ -192,8 +196,12 @@ namespace GraphSplit.UIElements
             return null;
         }
 
+        private void MainForm_SelectedCommand(object sender, CommandEventArgs e)
+        {
+            CommandChange(e.Command);
+        }
 
-        public void CommandChange() 
+        public void CommandChange(Command command) 
         {
             draggedVertex = null;
         }
