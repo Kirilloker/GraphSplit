@@ -11,8 +11,8 @@ namespace GraphSplit
         private Tip tip = new Tip();
         private Navbar navbar = new Navbar();
         private PaintArea paintArea;
+
         private Command command = Command.None;
-        private List<Vertex> vertices = new List<Vertex>();
 
         public event EventHandler<CommandEventArgs> EventSelectedCommand;
 
@@ -31,20 +31,21 @@ namespace GraphSplit
             this.FormClosing += (sender, e) => Application.Exit();
         }
 
-        public static MainForm GetInstance() => instance ??= new MainForm();
-        private static MainForm instance;
-
         public void InitializeForm()
         {
             controlButtons = new ControlButtons(this);
             paintArea = new PaintArea(this);
 
-
             MinimumSize = new Size(800, 600);
             MaximumSize = new Size(1300, 800);
 
             Controls.AddRange(new Control[] { controlButtons.Initialize(), paintArea.Initialize(), navbar.Initialize()});
+
+            tip.Initialize(GetButtons());
         }
+
+        public static MainForm GetInstance() => instance ??= new MainForm();
+        private static MainForm instance;
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -64,8 +65,6 @@ namespace GraphSplit
         }
 
         public List<Button> GetButtons() => controlButtons.GetButtons();
-        public List<Vertex> GetVertices() => vertices;
-
         public int Width => ClientSize.Width;
         public int Height => ClientSize.Height;
         public Command Command => command;

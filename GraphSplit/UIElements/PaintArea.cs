@@ -1,15 +1,13 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using GraphSplit.GraphElements;
 
 namespace GraphSplit.UIElements
 {
     public partial class PaintArea
     {
-        PictureBox pictureBox;
-        MainForm mainForm;
+        private PictureBox pictureBox;
+        private readonly MainForm mainForm;
+        private readonly List<Vertex> vertices = new List<Vertex>();
         private Vertex draggedVertex = null;
-        private Edge selectedEdge = null;
-
         private Point lastMouseLocation;
 
 
@@ -19,13 +17,15 @@ namespace GraphSplit.UIElements
             this.mainForm.EventSelectedCommand += MainForm_SelectedCommand;
         }
 
-
         public PictureBox Initialize()
         {
-            pictureBox = new PictureBox();
-            pictureBox.Size = new Size(600, 400);
-            pictureBox.Location = new Point((mainForm.Width - pictureBox.Width) / 2, (mainForm.Height - pictureBox.Height) / 2);
-            pictureBox.BackColor = Color.White;
+            pictureBox = new PictureBox
+            {
+                Size = new Size(600, 400),
+                Location = new Point((mainForm.Width - 600) / 2, (mainForm.Height - 400) / 2),
+                BackColor = Color.White
+            };
+
             pictureBox.Paint += PictureBox_Paint;
             pictureBox.MouseDown += PictureBox_MouseDown;
             pictureBox.MouseMove += PictureBox_MouseMove;
@@ -36,140 +36,158 @@ namespace GraphSplit.UIElements
 
         private void PictureBox_Paint(object sender, PaintEventArgs e)
         {
-            List<Vertex> vertices = mainForm.GetVertices();
+            foreach (Vertex vertex in vertices)
+                foreach (Edge edge in vertex.AdjacentEdgesRender)
+                    edge.Draw(e.Graphics);
 
             foreach (Vertex vertex in vertices)
                 vertex.Draw(e.Graphics, e.Graphics, vertex.Index + 1);
+        }
 
+        private Vertex FindVertexAtPoint(Point location)
+        {
             foreach (Vertex vertex in vertices)
-                foreach (Edge edge in vertex.AdjacentEdges)
-                    edge.Draw(e.Graphics);
+                if (vertex.IsInside(location))
+                    return vertex;
+
+            return null;
+        }
+
+        private void HandleLeftButtonClick(Vertex clickedVertex)
+        {
+            switch (mainForm.Command)
+            {
+                case Command.AddVertex:
+                    draggedVertex = clickedVertex;
+                    lastMouseLocation = clickedVertex.Location;
+                    clickedVertex.ChangeBorderColor(Color.Red);
+                    break;
+                case Command.DeleteElement:
+                    RemoveVertex(clickedVertex);
+                    break;
+                case Command.AddEdge:
+                    HandleAddEdgeCommand(clickedVertex);
+                    break;
+            }
+
+            pictureBox.Invalidate();
         }
 
 
+        private void HandleAddEdgeCommand(Vertex clickedVertex)
+        {
+            if (draggedVertex == null)
+            {
+                draggedVertex = clickedVertex;
+                clickedVertex.ChangeBorderColor(Color.Yellow);
+            }
+            else
+            {
+                draggedVertex.ChangeBorderColor(Color.Blue);
+                CreateEdge(draggedVertex, clickedVertex);
+                draggedVertex = null;
+            }
+        }
+        private void RemoveSelectedEdge(Point location)
+        {
+            Edge selectedEdge = GetEdgeAtPoint(location);
+
+            if (selectedEdge != null)
+                RemoveEdge(selectedEdge);
+        }
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            List<Vertex> vertices = mainForm.GetVertices();
+            Vertex clickedVertex = FindVertexAtPoint(e.Location);
 
-            for (int i = 0; i < vertices.Count; i++)
+            if (clickedVertex != null)
             {
-                Vertex vertex = vertices[i];
-
-                if (vertex.IsInside(e.Location))
+                if (e.Button == MouseButtons.Right)
                 {
-                    if (e.Button == MouseButtons.Right)
-                    {
-                        RemoveVertex(i);
-                        return;
-                    }
-
-                    if (e.Button == MouseButtons.Left)
-                    {
-                        if (mainForm.Command == Command.AddVertex)
-                        {
-                            draggedVertex = vertex;
-                            lastMouseLocation = e.Location;
-                            return;
-                        }
-                        else if (mainForm.Command == Command.DeleteElement)
-                        {
-                            RemoveVertex(i);
-                            return;
-                        }
-                        else if (mainForm.Command == Command.AddEdge)
-                        {
-                            if (draggedVertex == null)
-                            {
-                                draggedVertex = vertex;
-                            }
-                            else
-                            {
-                                CreateEdge(draggedVertex, vertex);
-                                draggedVertex = null;
-                            }
-
-                            return;
-                        }
-                    }
+                    RemoveVertex(clickedVertex);
+                    return;
                 }
+
+                HandleLeftButtonClick(clickedVertex);
+                return;
             }
 
 
             if (e.Button == MouseButtons.Left && mainForm.Command == Command.AddVertex)
+            {
                 CreateVertex(e.Location);
+                return;
+            }
 
             if ((e.Button == MouseButtons.Left && mainForm.Command == Command.DeleteElement) || e.Button == MouseButtons.Right)
             {
-                selectedEdge = GetEdgeAtPoint(e.Location);
-                if (selectedEdge != null)
-                {
-                    RemoveEdge(selectedEdge);
-                    selectedEdge = null;
-                }
+                RemoveSelectedEdge(e.Location);
+                return;
             }
         }
-
-
-
 
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mainForm.Command == Command.AddVertex)
+            if ((mainForm.Command == Command.AddVertex) && (draggedVertex != null))
             {
-                if (draggedVertex != null)
-                {
-                    int deltaX = e.Location.X - lastMouseLocation.X;
-                    int deltaY = e.Location.Y - lastMouseLocation.Y;
+                int newX = e.Location.X;
+                int newY = e.Location.Y;
 
-                    draggedVertex.Move(deltaX, deltaY);
-                    lastMouseLocation = e.Location;
-                    pictureBox.Invalidate();
-                }
+                if (newX < 0)
+                    newX = 0;
+                else if (newX > pictureBox.Width)
+                    newX = pictureBox.Width;
+
+                if (newY < 0)
+                    newY = 0;
+                else if (newY > pictureBox.Height)
+                    newY = pictureBox.Height;
+
+                int deltaX = newX - lastMouseLocation.X;
+                int deltaY = newY - lastMouseLocation.Y;
+
+                draggedVertex.Move(deltaX, deltaY);
+                lastMouseLocation = new Point(newX, newY);
+                pictureBox.Invalidate();
             }
         }
+
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            if (mainForm.Command == Command.AddVertex)
+            if (mainForm.Command == Command.AddVertex && draggedVertex != null)
             {
-                if (draggedVertex != null)
-                    draggedVertex = null;
+                draggedVertex.ChangeBorderColor(Color.Blue); 
+                draggedVertex = null;
+                pictureBox.Invalidate();
             }
         }
-
-
 
         private void CreateEdge(Vertex startVertex, Vertex endVertex)
         {
             Edge newEdge = new Edge(startVertex, endVertex);
-            startVertex.AdjacentEdges.Add(newEdge);
-            endVertex.AdjacentEdges.Add(newEdge);
+            startVertex.AddEdge(newEdge);
+            endVertex.AddEdge(newEdge); 
 
             pictureBox.Invalidate();
         }
 
         private void CreateVertex(Point location)
         {
-            List<Vertex> vertices = mainForm.GetVertices();
-
             Vertex newVertex = new Vertex(location, vertices.Count);
             vertices.Add(newVertex);
 
             pictureBox.Invalidate();
         }
 
-        private void RemoveVertex(int index)
+        private void RemoveVertex(Vertex removedVertex)
         {
-            List<Vertex> vertices = mainForm.GetVertices();
-
-            Vertex removedVertex = vertices[index];
-            vertices.RemoveAt(index);
+            vertices.Remove(removedVertex);
 
             foreach (Vertex vertex in vertices)
             {
-                vertex.AdjacentEdges.RemoveAll(edge => edge.ConnectedVertices.Contains(removedVertex));
+                vertex.RemoveConnectedVertex(removedVertex);
                 vertex.Index = vertices.IndexOf(vertex);
             }
 
@@ -178,18 +196,16 @@ namespace GraphSplit.UIElements
 
         private void RemoveEdge(Edge edge)
         {
-            edge.ConnectedVertices[0].AdjacentEdges.Remove(edge);
-            edge.ConnectedVertices[1].AdjacentEdges.Remove(edge);
+            edge.Vertex1.RemoveEdge(edge);
+            edge.Vertex2.RemoveEdge(edge);
 
             pictureBox.Invalidate();
         }
 
         private Edge GetEdgeAtPoint(Point point)
         {
-            List<Vertex> vertices = mainForm.GetVertices();
-
             foreach (Vertex vertex in vertices)
-                foreach (Edge edge in vertex.AdjacentEdges)
+                foreach (Edge edge in vertex.AdjacentEdgesRender)
                     if (edge.IsInside(point))
                         return edge;
 
@@ -203,7 +219,12 @@ namespace GraphSplit.UIElements
 
         public void CommandChange(Command command) 
         {
+            if (draggedVertex != null) 
+                draggedVertex.ChangeBorderColor(Color.Blue);
+
             draggedVertex = null;
+
+            pictureBox.Invalidate();
         }
     }
 }

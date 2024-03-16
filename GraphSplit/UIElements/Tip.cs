@@ -1,35 +1,44 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace GraphSplit.UIElements
 {
     public partial class Tip
     {
-        public Tip() {}
+        public Tip() { }
 
-        public ToolTip Initialize()
+        public ToolTip Initialize(List<Button> buttons)
         {
-            List<Button> buttons = MainForm.GetInstance().GetButtons();
             ToolTip toolTip = new ToolTip();
 
-            void AttachMouseEnterHandler(Button button, string tooltipText)
+            foreach (var button in buttons)
             {
-                button.MouseEnter += (sender, e) =>
-                {
-                    if (button != null)
-                        toolTip.Show(tooltipText, button, button.Width, 0);
-                };
+                button.MouseEnter += (sender, e) => ShowToolTip(button, toolTip);
+                button.MouseLeave += (sender, e) => HideToolTip(button, toolTip);
             }
 
-            foreach (var button in buttons)
-                button.MouseLeave += (sender, e) =>
-                    toolTip.Hide(button);
-
-            AttachMouseEnterHandler(buttons[(int)Command.AddVertex], "Добавить вершину (V)");
-            AttachMouseEnterHandler(buttons[(int)Command.AddEdge], "Добавить ребро (E)");
-            AttachMouseEnterHandler(buttons[(int)Command.DeleteElement], "Удалить элемент (D)");
+            AttachToolTip(buttons[(int)Command.AddVertex], "Добавить вершину (V)");
+            AttachToolTip(buttons[(int)Command.AddEdge], "Добавить ребро (E)");
+            AttachToolTip(buttons[(int)Command.DeleteElement], "Удалить элемент (D)");
 
             return toolTip;
+        }
+
+        private void ShowToolTip(Button button, ToolTip toolTip)
+        {
+            if (button != null)
+                toolTip.Show(button.Tag.ToString(), button, button.Width, 0);
+        }
+
+        private void HideToolTip(Button button, ToolTip toolTip)
+        {
+            toolTip.Hide(button);
+        }
+
+        private void AttachToolTip(Button button, string tooltipText)
+        {
+            button.Tag = tooltipText;
         }
     }
 }
