@@ -21,6 +21,8 @@ namespace GraphSplit.UIElements
         private Rectangle selectionRectangle = Rectangle.Empty;
         private bool isSelecting = false;
 
+        private List<Vertex> selectedVertices = new List<Vertex>();
+
         public PaintArea(MainForm mainForm)
         {
             this.mainForm = mainForm;
@@ -49,7 +51,7 @@ namespace GraphSplit.UIElements
 
         private void PictureBox_Paint(object sender, PaintEventArgs e)
         {
-            if (!selectionRectangle.IsEmpty)
+            if (!selectionRectangle.IsEmpty && isSelecting)
             {
                 using (Pen pen = new Pen(Color.Blue) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash })
                 {
@@ -140,11 +142,13 @@ namespace GraphSplit.UIElements
                 return;
             }
 
-            if (e.Button == MouseButtons.Left && CommandHandler.Command == Command.DeleteElement)
+            if (e.Button == MouseButtons.Left && (CommandHandler.Command == Command.DeleteElement || CommandHandler.Command == Command.Moving))
             {
                 lastMouseLocation = e.Location;
                 isSelecting = true;
+                selectionRectangle = new Rectangle(e.Location, new Size(0, 0));
             }
+
 
             if (e.Button == MouseButtons.Right)
             {
@@ -153,21 +157,37 @@ namespace GraphSplit.UIElements
             }
         }
 
+        bool test = false; // !!!!!!!!!!!!!!!!!
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             if (isSelecting)
             {
-                if (e.Button == MouseButtons.Left)
+                selectionRectangle = new Rectangle(
+                    Math.Min(lastMouseLocation.X, e.Location.X),
+                    Math.Min(lastMouseLocation.Y, e.Location.Y),
+                    Math.Abs(e.Location.X - lastMouseLocation.X),
+                    Math.Abs(e.Location.Y - lastMouseLocation.Y));
+
+                pictureBox.Invalidate();
+            }
+            else if (CommandHandler.Command == Command.Moving && selectedVertices.Count > 0)
+            {
+                if (test == false) // !!!!!!!!!!!!!!!!!
+                {// !!!!!!!!!!!!!!!!!
+                    lastMouseLocation = e.Location;// !!!!!!!!!!!!!!!!!
+                    test = true;// !!!!!!!!!!!!!!!!!
+                }// !!!!!!!!!!!!!!!!!
+
+                var deltaX = e.Location.X - lastMouseLocation.X;
+                var deltaY = e.Location.Y - lastMouseLocation.Y;
+
+                foreach (var vertex in selectedVertices)
                 {
-                    Point currentMouseLocation = e.Location;
-                    selectionRectangle = new Rectangle(
-                        Math.Min(lastMouseLocation.X, currentMouseLocation.X),
-                        Math.Min(lastMouseLocation.Y, currentMouseLocation.Y),
-                        Math.Abs(lastMouseLocation.X - currentMouseLocation.X),
-                        Math.Abs(lastMouseLocation.Y - currentMouseLocation.Y));
-                    pictureBox.Invalidate();
+                    vertex.Move(deltaX, deltaY);
                 }
+                lastMouseLocation = e.Location;
+                pictureBox.Invalidate();
             }
             else
             {
@@ -194,31 +214,58 @@ namespace GraphSplit.UIElements
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
+            test = false; // !!!!!!!!!!!!!!!!!!!!!
+
             if (isSelecting)
             {
                 isSelecting = false;
-                foreach (var vertex in vertices.ToArray())
+                if (CommandHandler.Command == Command.DeleteElement)
                 {
-                    if (selectionRectangle.Contains(vertex.Location))
+                    foreach (var vertex in vertices.ToArray())
                     {
-                        RemoveVertex(vertex);
+                        if (selectionRectangle.Contains(vertex.Location))
+                        {
+                            RemoveVertex(vertex);
+                        }
+                    }
+                }
+                else if (CommandHandler.Command == Command.Moving)
+                {
+                    selectedVertices.Clear();
+                    foreach (var vertex in vertices)
+                    {
+                        if (selectionRectangle.Contains(vertex.Location))
+                        {
+                            vertex.ChangeBorderColor(Color.Red);
+                            selectedVertices.Add(vertex);
+                        }
                     }
                 }
                 selectionRectangle = Rectangle.Empty;
                 pictureBox.Invalidate();
             }
-            else
+            
+            if (CommandHandler.Command == Command.Moving && selectedVertices.Count == 0)
             {
-                if (CommandHandler.Command == Command.AddVertex && draggedVertex != null)
+                draggedVertex = null;
+                foreach (var vertex in vertices)
                 {
-                    draggedVertex.ChangeBorderColor(Color.Blue);
-                    foreach (var edge in draggedVertex.AdjacentEdgesRender)
-                        edge.ChangeColorLine(Color.Black);
-
-                    draggedVertex = null;
-                    pictureBox.Invalidate();
-                    UpdateUndoHistory();
+                    vertex.ChangeBorderColor(Color.Blue); 
                 }
+                selectedVertices.Clear();
+                UpdateUndoHistory();
+                pictureBox.Invalidate();
+            }
+
+            if (CommandHandler.Command == Command.AddVertex && draggedVertex != null)
+            {
+                draggedVertex.ChangeBorderColor(Color.Blue);
+                foreach (var edge in draggedVertex.AdjacentEdgesRender)
+                    edge.ChangeColorLine(Color.Black);
+
+                draggedVertex = null;
+                pictureBox.Invalidate();
+                UpdateUndoHistory();
             }
         }
 

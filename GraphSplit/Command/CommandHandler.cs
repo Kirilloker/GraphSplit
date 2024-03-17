@@ -6,7 +6,8 @@
         {
             [Keys.V] = Command.AddVertex,
             [Keys.D] = Command.DeleteElement,
-            [Keys.E] = Command.AddEdge
+            [Keys.E] = Command.AddEdge,
+            [Keys.M] = Command.Moving
         };
 
         public static event EventHandler<CommandEventArgs> CommandSelected;

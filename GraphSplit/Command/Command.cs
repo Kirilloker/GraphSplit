@@ -6,6 +6,7 @@ namespace GraphSplit
         AddVertex,
         AddEdge,
         DeleteElement,
+        Moving,
         None
     }
 }

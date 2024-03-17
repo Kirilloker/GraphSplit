@@ -21,6 +21,7 @@ namespace GraphSplit.UIElements
             AttachToolTip(buttons[(int)Command.AddVertex], "Добавить вершину (V)");
             AttachToolTip(buttons[(int)Command.AddEdge], "Добавить ребро (E)");
             AttachToolTip(buttons[(int)Command.DeleteElement], "Удалить элемент (D)");
+            AttachToolTip(buttons[(int)Command.Moving], "Передвигать вершины (M)");
 
             return toolTip;
         }

@@ -32,6 +32,7 @@
             InitializeButton("D:\\Charp\\GraphSplit\\GraphSplit\\bin\\Debug\\net6.0-windows\\addVertexIcon.png", ButtonAddVertex_Click, 0);
             InitializeButton("D:\\Charp\\GraphSplit\\GraphSplit\\bin\\Debug\\net6.0-windows\\addEdgeIcon.png", ButtonAddEdge_Click, 1);
             InitializeButton("D:\\Charp\\GraphSplit\\GraphSplit\\bin\\Debug\\net6.0-windows\\DeleteElementIcon.png", ButtonDeleteElement_Click, 2);
+            InitializeButton("D:\\Charp\\GraphSplit\\GraphSplit\\bin\\Debug\\net6.0-windows\\MovingIcon.png", ButtonMoving_Click, 3);
         }
 
         private void InitializeButton(string imageName, EventHandler clickHandler, int position)
@@ -52,6 +53,7 @@
         private void ButtonAddVertex_Click(object sender, EventArgs e) => CommandHandler.SelectedCommand(Command.AddVertex);
         private void ButtonAddEdge_Click(object sender, EventArgs e) => CommandHandler.SelectedCommand(Command.AddEdge);
         private void ButtonDeleteElement_Click(object sender, EventArgs e) => CommandHandler.SelectedCommand(Command.DeleteElement);
+        private void ButtonMoving_Click(object sender, EventArgs e) => CommandHandler.SelectedCommand(Command.Moving);
 
         private void MainForm_SelectedCommand(object sender, CommandEventArgs e)
         {
