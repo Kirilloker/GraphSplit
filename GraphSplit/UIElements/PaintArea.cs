@@ -18,6 +18,9 @@ namespace GraphSplit.UIElements
         private Point lastMouseLocation;
         private Vertex draggedVertex = null;
 
+        private Rectangle selectionRectangle = Rectangle.Empty;
+        private bool isSelecting = false;
+
         public PaintArea(MainForm mainForm)
         {
             this.mainForm = mainForm;
@@ -46,6 +49,14 @@ namespace GraphSplit.UIElements
 
         private void PictureBox_Paint(object sender, PaintEventArgs e)
         {
+            if (!selectionRectangle.IsEmpty)
+            {
+                using (Pen pen = new Pen(Color.Blue) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash })
+                {
+                    e.Graphics.DrawRectangle(pen, selectionRectangle);
+                }
+            }
+
             foreach (Vertex vertex in vertices)
                 foreach (Edge edge in vertex.AdjacentEdgesRender)
                     edge.Draw(e.Graphics);
@@ -129,7 +140,13 @@ namespace GraphSplit.UIElements
                 return;
             }
 
-            if ((e.Button == MouseButtons.Left && CommandHandler.Command == Command.DeleteElement) || e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Left && CommandHandler.Command == Command.DeleteElement)
+            {
+                lastMouseLocation = e.Location;
+                isSelecting = true;
+            }
+
+            if (e.Button == MouseButtons.Right)
             {
                 RemoveSelectedEdge(e.Location);
                 return;
@@ -139,15 +156,31 @@ namespace GraphSplit.UIElements
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (CommandHandler.Command == Command.AddVertex && draggedVertex is not null)
+            if (isSelecting)
             {
-                var (newX, newY) = ConstrainMouseLocation(e.Location);
-                var deltaX = newX - lastMouseLocation.X;
-                var deltaY = newY - lastMouseLocation.Y;
+                if (e.Button == MouseButtons.Left)
+                {
+                    Point currentMouseLocation = e.Location;
+                    selectionRectangle = new Rectangle(
+                        Math.Min(lastMouseLocation.X, currentMouseLocation.X),
+                        Math.Min(lastMouseLocation.Y, currentMouseLocation.Y),
+                        Math.Abs(lastMouseLocation.X - currentMouseLocation.X),
+                        Math.Abs(lastMouseLocation.Y - currentMouseLocation.Y));
+                    pictureBox.Invalidate();
+                }
+            }
+            else
+            {
+                if (CommandHandler.Command == Command.AddVertex && draggedVertex is not null)
+                {
+                    var (newX, newY) = ConstrainMouseLocation(e.Location);
+                    var deltaX = newX - lastMouseLocation.X;
+                    var deltaY = newY - lastMouseLocation.Y;
 
-                draggedVertex.Move(deltaX, deltaY);
-                lastMouseLocation = new Point(newX, newY);
-                pictureBox.Invalidate();
+                    draggedVertex.Move(deltaX, deltaY);
+                    lastMouseLocation = new Point(newX, newY);
+                    pictureBox.Invalidate();
+                }
             }
         }
 
@@ -161,15 +194,31 @@ namespace GraphSplit.UIElements
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            if (CommandHandler.Command == Command.AddVertex && draggedVertex != null)
+            if (isSelecting)
             {
-                draggedVertex.ChangeBorderColor(Color.Blue);
-                foreach (var edge in draggedVertex.AdjacentEdgesRender)
-                    edge.ChangeColorLine(Color.Black);
-
-                draggedVertex = null;
+                isSelecting = false;
+                foreach (var vertex in vertices.ToArray())
+                {
+                    if (selectionRectangle.Contains(vertex.Location))
+                    {
+                        RemoveVertex(vertex);
+                    }
+                }
+                selectionRectangle = Rectangle.Empty;
                 pictureBox.Invalidate();
-                UpdateUndoHistory();
+            }
+            else
+            {
+                if (CommandHandler.Command == Command.AddVertex && draggedVertex != null)
+                {
+                    draggedVertex.ChangeBorderColor(Color.Blue);
+                    foreach (var edge in draggedVertex.AdjacentEdgesRender)
+                        edge.ChangeColorLine(Color.Black);
+
+                    draggedVertex = null;
+                    pictureBox.Invalidate();
+                    UpdateUndoHistory();
+                }
             }
         }
 
