@@ -96,6 +96,10 @@
 
             return clonedVertices;
         }
+        public bool IsConnectedTo(Vertex other)
+        {
+            return AdjacentEdgesRender.Any(edge => edge.Vertex1 == other || edge.Vertex2 == other);
+        }
 
         private int Radius { get { return GraphSettings.VertexRadius; } }
         private int BorderWidth { get { return GraphSettings.VertexBorder; } }

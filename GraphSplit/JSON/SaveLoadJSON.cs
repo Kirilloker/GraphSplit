@@ -43,7 +43,6 @@ namespace GraphSplit.JSON
                     var startVertex = vertices[edgeData.StartVertexIndex];
                     var endVertex = vertices[edgeData.EndVertexIndex];
                     var edge = new Edge(startVertex, endVertex);
-                    //vertex.AddEdge(edge); 
                 }
             }
 

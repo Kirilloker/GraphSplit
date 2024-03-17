@@ -177,8 +177,6 @@ namespace GraphSplit.UIElements
         {
             UpdateUndoHistory();
             Edge newEdge = new Edge(startVertex, endVertex);
-            //startVertex.AddEdge(newEdge);
-            //endVertex.AddEdge(newEdge); 
 
             pictureBox.Invalidate();
         }
@@ -223,6 +221,37 @@ namespace GraphSplit.UIElements
                         return edge;
 
             return null;
+        }
+
+        public void GenerateRandomGraph(int verticesCount)
+        {
+            Random rnd = new Random();
+            Clear(); 
+            int vertexRadius = GraphSettings.VertexRadius; 
+
+            for (int i = 0; i < verticesCount;)
+            {
+                Point randomPoint = new Point(rnd.Next(vertexRadius, Width - vertexRadius), rnd.Next(vertexRadius, Height - vertexRadius));
+                bool isOverlapping = vertices.Any(v => Math.Sqrt(Math.Pow(v.Location.X - randomPoint.X, 2) + Math.Pow(v.Location.Y - randomPoint.Y, 2)) < vertexRadius * 2);
+                if (!isOverlapping)
+                {
+                    CreateVertex(randomPoint);
+                    i++;
+                }
+            }
+
+            int edgesCount = rnd.Next(verticesCount - 1, Math.Min(3 * verticesCount, (verticesCount * (verticesCount - 1)) / 2)); 
+            for (int i = 0; i < edgesCount; i++)
+            {
+                Vertex startVertex = vertices[rnd.Next(verticesCount)];
+                Vertex endVertex;
+                do
+                {
+                    endVertex = vertices[rnd.Next(verticesCount)];
+                } while (startVertex == endVertex || startVertex.IsConnectedTo(endVertex)); 
+
+                CreateEdge(startVertex, endVertex);
+            }
         }
 
         private void MainForm_SelectedCommand(object sender, CommandEventArgs e)
@@ -275,12 +304,12 @@ namespace GraphSplit.UIElements
             vertices.Clear();
 
             pictureBox.Invalidate();
+            
         }
 
         private void RefreshPaint(object sender, EventArgs e)
         {
             pictureBox.Invalidate();
         }
-
     }
 }

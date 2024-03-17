@@ -15,6 +15,12 @@ namespace GraphSplit.UIElements
         private const string SaveAsFileItemText = "Сохранить как";
         private const string SettingsMenuText = "Настройки";
 
+
+        private const string OptionsMenuText = "Опции";
+        private const string Generate10VertexText = "Создать граф с 10 случайными вершинами";
+        private const string Generate20VertexText = "Создать граф с 20 случайными вершинами";
+        private const string Generate30VertexText = "Создать граф с 30 случайными вершинами";
+
         private string lastUseName = string.Empty;
 
         public PaintArea paintArea;
@@ -55,6 +61,24 @@ namespace GraphSplit.UIElements
 
             CommandHandler.SaveCommand += SaveFileItem_Click;
             CommandHandler.SaveAsCommand += SaveAsFileItem_Click;
+
+
+            var optionsMenu = new ToolStripMenuItem(OptionsMenuText);
+
+            var randomGraph10 = new ToolStripMenuItem(Generate10VertexText);
+            randomGraph10.Click += (sender, e) => paintArea.GenerateRandomGraph(10);
+
+            var randomGraph20 = new ToolStripMenuItem(Generate20VertexText);
+            randomGraph20.Click += (sender, e) => paintArea.GenerateRandomGraph(20);
+
+            var randomGraph30 = new ToolStripMenuItem(Generate30VertexText);
+            randomGraph30.Click += (sender, e) => paintArea.GenerateRandomGraph(30);
+
+            optionsMenu.DropDownItems.Add(randomGraph10);
+            optionsMenu.DropDownItems.Add(randomGraph20);
+            optionsMenu.DropDownItems.Add(randomGraph30);
+
+            menuStrip.Items.Add(optionsMenu);
 
             return menuStrip;
         }
