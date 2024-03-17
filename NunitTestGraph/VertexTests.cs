@@ -7,6 +7,7 @@ namespace GraphSplitTests
     public class VertexTests
     {
         [Test]
+        // Тест конструктора при нормальных параметрах
         public void Constructor_InitializesLocationAndIndex()
         {
             var point = new Point(10, 20);
@@ -17,7 +18,8 @@ namespace GraphSplitTests
         }
 
         [Test]
-        public void IsInside_PointInside_ReturnsTrue()
+        // Тест находится ли в данной точке вершина (Точка близко к вершине)
+        public void IsInside_PointNear()
         {
             var vertex = new Vertex(new Point(100, 100), 1);
             var pointInside = new Point(105, 105); 
@@ -28,7 +30,8 @@ namespace GraphSplitTests
         }
 
         [Test]
-        public void IsInside_PointOutside_ReturnsFalse()
+        // Тест находится ли в данной точке вершина (Точка далеко от вершины)
+        public void IsInside_PointFar()
         {
             var vertex = new Vertex(new Point(100, 100), 1);
             var pointOutside = new Point(130, 130); 
@@ -39,6 +42,7 @@ namespace GraphSplitTests
         }
 
         [Test]
+        // Тест на смещение вершины
         public void Move_ChangesLocation()
         {
             var initialLocation = new Point(100, 100);
@@ -52,7 +56,8 @@ namespace GraphSplitTests
         }
 
         [Test]
-        public void ChangeBorderColor_ChangesBorderColor()
+        // Тест на корректную смену цвета
+        public void Change_BorderColor()
         {
             var vertex = new Vertex(new Point(100, 100), 1);
             var newColor = Color.Red;
@@ -63,7 +68,8 @@ namespace GraphSplitTests
         }
 
         [Test]
-        public void AddEdge_IncreasesAdjacentEdgesCount()
+        // Тест на добавление ребра 
+        public void AddEdge_IncreasesEdgesCount()
         {
             var vertex1 = new Vertex(new Point(100, 100), 1);
             var vertex2 = new Vertex(new Point(200, 200), 2);
@@ -73,7 +79,8 @@ namespace GraphSplitTests
         }
 
         [Test]
-        public void RemoveEdge_DecreasesAdjacentEdgesCount()
+        // Тест на удаление ребра
+        public void RemoveEdge_DecreasesEdgesCount()
         {
             var vertex1 = new Vertex(new Point(100, 100), 1);
             var vertex2 = new Vertex(new Point(200, 200), 2);
@@ -85,7 +92,9 @@ namespace GraphSplitTests
         }
 
         [Test]
-        public void RemoveConnectedVertex_RemovesCorrectEdges()
+        // Тест на удаление ребра у одной из вершин и корректная
+        // реакция у связанных вершин
+        public void Remove_ConnectedVertex()
         {
             var vertex1 = new Vertex(new Point(100, 100), 1);
             var vertex2 = new Vertex(new Point(200, 200), 2);
@@ -100,7 +109,8 @@ namespace GraphSplitTests
         }
 
         [Test]
-        public void CloneVertices_CreatesDeepCopyOfVertices()
+        // Тест на глубокое копирование вершин
+        public void CreatesDeepCopyOfVertices()
         {
             var originalVertices = new List<Vertex>
             {
@@ -121,7 +131,8 @@ namespace GraphSplitTests
         }
 
         [Test]
-        public void CloneVertices_CreatesDeepCopyOfEdges()
+        // Тест на глубокое копирование вершин с проверкой ребер
+        public void CreatesDeepCopyOfEdges()
         {
             var originalVertices = new List<Vertex>
             {

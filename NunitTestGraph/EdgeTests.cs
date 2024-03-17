@@ -7,7 +7,8 @@ namespace GrpahSplitTest
     public class EdgeTests
     {
         [Test]
-        public void Constructor_WhenCalled_SetsVertices()
+        // Тест конструктора при нормальных параметрах
+        public void Constructor()
         {
             var vertex1 = new Vertex(new Point(100, 100), 1);
             var vertex2 = new Vertex(new Point(200, 200), 2);
@@ -18,23 +19,22 @@ namespace GrpahSplitTest
         }
 
         [Test]
-        public void Constructor_NullVertex1_ThrowsArgumentNullException()
-        {
-            var vertex2 = new Vertex(new Point(200, 200), 2);
-
-            Assert.Throws<ArgumentNullException>(() => new Edge(null, vertex2));
-        }
-
-        [Test]
-        public void Constructor_NullVertex2_ThrowsArgumentNullException()
+        // Тест конструктора с null параметром
+        public void Constructor_ThrowsArgumentNullException()
         {
             var vertex1 = new Vertex(new Point(100, 100), 1);
 
+            var vertex2 = new Vertex(new Point(200, 200), 2);
+
+            Assert.Throws<ArgumentNullException>(() => new Edge(null, vertex2));
             Assert.Throws<ArgumentNullException>(() => new Edge(vertex1, null));
+
         }
 
+
         [Test]
-        public void Draw_NullGraphics_ThrowsArgumentNullException()
+        // Тест на отрисовку с null параметром
+        public void Draw_ThrowsArgumentNullException()
         {
             var vertex1 = new Vertex(new Point(100, 100), 1);
             var vertex2 = new Vertex(new Point(200, 200), 2);
@@ -44,7 +44,8 @@ namespace GrpahSplitTest
         }
 
         [Test]
-        public void IsInside_PointOnLine_ReturnsTrue()
+        // Тест проходит ли ребро через точку (Точка ровно на линии)
+        public void IsInside_PointOnLine()
         {
             var vertex1 = new Vertex(new Point(100, 100), 1);
             var vertex2 = new Vertex(new Point(200, 200), 2);
@@ -57,7 +58,8 @@ namespace GrpahSplitTest
         }
 
         [Test]
-        public void IsInside_PointNearLineWithinLineWidth_ReturnsTrue()
+        // Тест проходит ли ребро через точку (Точка близко с линией)
+        public void IsInside_PointNear()
         {
             var vertex1 = new Vertex(new Point(100, 100), 1);
             var vertex2 = new Vertex(new Point(200, 200), 2);
@@ -70,7 +72,8 @@ namespace GrpahSplitTest
         }
 
         [Test]
-        public void IsInside_PointFarFromLine_ReturnsFalse()
+        // Тест проходит ли ребро через точку (Точка далеко от линии)
+        public void IsInside_PointFar()
         {
             var vertex1 = new Vertex(new Point(100, 100), 1);
             var vertex2 = new Vertex(new Point(200, 200), 2);
@@ -83,19 +86,7 @@ namespace GrpahSplitTest
         }
 
         [Test]
-        public void PointToLineDistance_PointExactlyOnLine_ReturnsZero()
-        {
-            var vertex1 = new Vertex(new Point(100, 100), 1);
-            var vertex2 = new Vertex(new Point(200, 200), 2);
-            var edge = new Edge(vertex1, vertex2);
-            var pointOnLine = new Point(150, 150);
-
-            bool result = edge.IsInside(pointOnLine);
-
-            Assert.IsTrue(result);
-        }
-
-        [Test]
+        // Тест проходит ли ребро через точку (Точка в одной из вершин)
         public void PointToLineDistance_StartPoint_ReturnsDistanceToLineStart()
         {
             var vertex1 = new Vertex(new Point(100, 100), 1);

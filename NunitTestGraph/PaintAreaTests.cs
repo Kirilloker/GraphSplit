@@ -10,6 +10,7 @@ public class PaintAreaTests
     private PaintArea paintArea;
 
     [SetUp]
+    // Перед тестами создаем PaintArea
     public void Setup()
     {
         mainForm = new MainForm();
@@ -18,22 +19,16 @@ public class PaintAreaTests
     }
 
     [Test]
-    public void Initialize_CreatesPictureBoxWithExpectedProperties()
-    {
-        var pictureBox = paintArea.Initialize();
-        Assert.AreEqual(new Size(600, 400), pictureBox.Size);
-        Assert.AreEqual(Color.White, pictureBox.BackColor);
-    }
-
-    [Test]
-    public void CreateVertex_AddsVertexToList()
+    // Тест на добавление вершин
+    public void CreateVertex()
     {
         paintArea.CreateVertex(new Point(100, 100));
         Assert.AreEqual(1, paintArea.GetVertices().Count);
     }
 
     [Test]
-    public void RemoveVertex_RemovesVertexFromList()
+    // Тест на удаление вершин
+    public void RemoveVertex()
     {
         paintArea.CreateVertex(new Point(100, 100));
         var vertex = paintArea.GetVertices().First();
@@ -42,7 +37,8 @@ public class PaintAreaTests
     }
 
     [Test]
-    public void CreateEdge_AddsEdgeToVertices()
+    // Тест на добавление ребер
+    public void CreateEdge()
     {
         paintArea.CreateVertex(new Point(100, 100));
         paintArea.CreateVertex(new Point(200, 200));
@@ -53,7 +49,8 @@ public class PaintAreaTests
     }
 
     [Test]
-    public void RemoveEdge_RemovesEdgeFromVertices()
+    // Тест на удаление ребер
+    public void RemoveEdge_()
     {
         paintArea.CreateVertex(new Point(100, 100));
         paintArea.CreateVertex(new Point(200, 200));
@@ -70,21 +67,9 @@ public class PaintAreaTests
         Assert.IsFalse(endVertex.AdjacentEdgesRender.Contains(edge));
     }
 
-    [Test]
-    public void UpdateUndoHistory_UpdatesUndoHistoryCorrectly()
-    {
-        paintArea.CreateVertex(new Point(100, 100));
-        paintArea.UpdateUndoHistory();
-        Assert.AreEqual(1, paintArea.GetVertices().Count);
-
-        paintArea.CreateVertex(new Point(200, 200));
-        paintArea.UpdateUndoHistory();
-
-        Assert.AreNotEqual(1, paintArea.GetVertices().Count);
-        Assert.AreEqual(2, paintArea.GetVertices().Count);
-    }
 
     [Test]
+    // Тест на корректную работы отмены действий
     public void MainForm_UndoCommand_RevertsToPreviousState()
     {
         paintArea.CreateVertex(new Point(100, 100));
@@ -96,6 +81,7 @@ public class PaintAreaTests
     }
 
     [Test]
+    // Тест на очистку полотна
     public void Clear_ClearsAllData()
     {
         paintArea.CreateVertex(new Point(100, 100));

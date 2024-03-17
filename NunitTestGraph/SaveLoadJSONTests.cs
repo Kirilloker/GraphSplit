@@ -10,6 +10,7 @@ namespace GraphSplitTests.JSON
         private const string TestFilename = "testVertices.json";
 
         [TearDown]
+        // Удаляем файл перед тестированием
         public void TearDown()
         {
             if (File.Exists(TestFilename))
@@ -19,7 +20,8 @@ namespace GraphSplitTests.JSON
         }
 
         [Test]
-        public void SaveToJSON_WithVertices_SavesCorrectly()
+        // Тест на корректное сохранение файла 
+        public void SaveToJSON_SavesCorrectly()
         {
             var vertices = new List<Vertex>
             {
@@ -36,7 +38,8 @@ namespace GraphSplitTests.JSON
         }
 
         [Test]
-        public void LoadFromJSON_ValidFile_LoadsVerticesCorrectly()
+        // Тест на правильную загрузку данных из файла
+        public void LoadFromJSON_LoadsVerticesCorrectly()
         {
             var expectedVertices = new List<Vertex>
             {
@@ -58,6 +61,7 @@ namespace GraphSplitTests.JSON
         }
 
         [Test]
+        // тест на правильную загрузку данных из файла с сохранением ребер
         public void SaveAndLoad_WithComplexGraph_RestoresGraphIntegrity()
         {
             var vertices = new List<Vertex>
@@ -82,7 +86,8 @@ namespace GraphSplitTests.JSON
         }
 
         [Test]
-        public void SaveToJSON_EmptyVerticesList_CreatesEmptyJSONArray()
+        // Тест на создание пустого файла
+        public void SaveToJSON_CreatesEmptyJSONArray()
         {
             var vertices = new List<Vertex>();
 
@@ -93,7 +98,8 @@ namespace GraphSplitTests.JSON
         }
 
         [Test]
-        public void LoadFromJSON_EmptyFile_ReturnsEmptyList()
+        // Тест на загрузку пустого файла
+        public void LoadFromJSON_ReturnsEmptyList()
         {
             File.WriteAllText(TestFilename, "[]");
             var loadedVertices = SaveLoadJSON.LoadFromJSON(TestFilename);
@@ -103,13 +109,15 @@ namespace GraphSplitTests.JSON
         }
 
         [Test]
-        public void LoadFromJSON_InvalidJSON_ThrowsJsonException()
+        // Тест на загрузку файла с неправильным содержимым
+        public void LoadFromJSON_InvalidJSON()
         {
             File.WriteAllText(TestFilename, "{invalid JSON}");
             Assert.Throws<System.Text.Json.JsonException>(() => SaveLoadJSON.LoadFromJSON(TestFilename));
         }
 
         [Test]
+        // Тест на корректную загрузку location 
         public void SaveAndLoad_RestoresExactLocationOfVertices()
         {
             var originalVertices = new List<Vertex>
@@ -128,6 +136,7 @@ namespace GraphSplitTests.JSON
         }
 
         [Test]
+        // Тест на загрузку файла с правильным количеством ребер между вершинами
         public void SaveAndLoad_RestoresEdgesBetweenVertices()
         {
             var vertices = new List<Vertex>
@@ -148,6 +157,7 @@ namespace GraphSplitTests.JSON
         }
 
         [Test]
+        // Тест на проверку загрузку не существующего файла
         public void SaveAndLoad_FileNotFound_ThrowsFileNotFoundException()
         {
             Assert.Throws<FileNotFoundException>(() => SaveLoadJSON.LoadFromJSON("nonexistent_file.json"));
