@@ -7,16 +7,18 @@ namespace GraphSplit.UIElements
     {
         private PictureBox pictureBox;
         private readonly MainForm mainForm;
-        private List<Vertex> vertices = new List<Vertex>();
-        private Vertex draggedVertex = null;
-        private Point lastMouseLocation;
+        private List<Vertex> vertices = new();
+        private readonly List<List<Vertex>> undoHistory = new();
+        private const int maxUndoCount = 30;
 
+        private Point lastMouseLocation;
+        private Vertex draggedVertex = null;
 
         public PaintArea(MainForm mainForm) 
         { 
             this.mainForm = mainForm;
-            this.mainForm.EventSelectedCommand += MainForm_SelectedCommand;
-            this.mainForm.UndoCommand += MainForm_UndoCommand;
+            CommandHandler.CommandSelected += MainForm_SelectedCommand;
+            CommandHandler.UndoCommand += MainForm_UndoCommand;
         }
 
         public PictureBox Initialize()
@@ -46,20 +48,17 @@ namespace GraphSplit.UIElements
                 vertex.Draw(e.Graphics, e.Graphics, vertex.Index + 1);
         }
 
-        private Vertex FindVertexAtPoint(Point location)
-        {
-            foreach (Vertex vertex in vertices)
-                if (vertex.IsInside(location))
-                    return vertex;
-
-            return null;
-        }
+        private Vertex? FindVertexAtPoint(Point location) =>
+            vertices.FirstOrDefault(v => v.IsInside(location));
 
         private void HandleLeftButtonClick(Vertex clickedVertex)
         {
-            switch (mainForm.Command)
+            switch (CommandHandler.Command)
             {
                 case Command.AddVertex:
+
+                    UpdateUndoHistory();
+
                     draggedVertex = clickedVertex;
                     lastMouseLocation = clickedVertex.Location;
                     clickedVertex.ChangeBorderColor(Color.Red);
@@ -115,13 +114,13 @@ namespace GraphSplit.UIElements
             }
 
 
-            if (e.Button == MouseButtons.Left && mainForm.Command == Command.AddVertex)
+            if (e.Button == MouseButtons.Left && CommandHandler.Command == Command.AddVertex)
             {
                 CreateVertex(e.Location);
                 return;
             }
 
-            if ((e.Button == MouseButtons.Left && mainForm.Command == Command.DeleteElement) || e.Button == MouseButtons.Right)
+            if ((e.Button == MouseButtons.Left && CommandHandler.Command == Command.DeleteElement) || e.Button == MouseButtons.Right)
             {
                 RemoveSelectedEdge(e.Location);
                 return;
@@ -131,23 +130,11 @@ namespace GraphSplit.UIElements
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if ((mainForm.Command == Command.AddVertex) && (draggedVertex != null))
+            if (CommandHandler.Command == Command.AddVertex && draggedVertex is not null)
             {
-                int newX = e.Location.X;
-                int newY = e.Location.Y;
-
-                if (newX < 0)
-                    newX = 0;
-                else if (newX > pictureBox.Width)
-                    newX = pictureBox.Width;
-
-                if (newY < 0)
-                    newY = 0;
-                else if (newY > pictureBox.Height)
-                    newY = pictureBox.Height;
-
-                int deltaX = newX - lastMouseLocation.X;
-                int deltaY = newY - lastMouseLocation.Y;
+                var (newX, newY) = ConstrainMouseLocation(e.Location);
+                var deltaX = newX - lastMouseLocation.X;
+                var deltaY = newY - lastMouseLocation.Y;
 
                 draggedVertex.Move(deltaX, deltaY);
                 lastMouseLocation = new Point(newX, newY);
@@ -155,19 +142,28 @@ namespace GraphSplit.UIElements
             }
         }
 
+        private (int X, int Y) ConstrainMouseLocation(Point location)
+        {
+            var newX = Math.Clamp(location.X, 0, pictureBox.Width);
+            var newY = Math.Clamp(location.Y, 0, pictureBox.Height);
+            return (newX, newY);
+        }
+
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            if (mainForm.Command == Command.AddVertex && draggedVertex != null)
+            if (CommandHandler.Command == Command.AddVertex && draggedVertex != null)
             {
-                draggedVertex.ChangeBorderColor(Color.Blue); 
+                draggedVertex.ChangeBorderColor(Color.Blue);
                 draggedVertex = null;
                 pictureBox.Invalidate();
+                UpdateUndoHistory();
             }
         }
 
         private void CreateEdge(Vertex startVertex, Vertex endVertex)
         {
+            UpdateUndoHistory();
             Edge newEdge = new Edge(startVertex, endVertex);
             startVertex.AddEdge(newEdge);
             endVertex.AddEdge(newEdge); 
@@ -177,6 +173,7 @@ namespace GraphSplit.UIElements
 
         private void CreateVertex(Point location)
         {
+            UpdateUndoHistory();
             Vertex newVertex = new Vertex(location, vertices.Count);
             vertices.Add(newVertex);
 
@@ -185,6 +182,7 @@ namespace GraphSplit.UIElements
 
         private void RemoveVertex(Vertex removedVertex)
         {
+            UpdateUndoHistory();
             vertices.Remove(removedVertex);
 
             foreach (Vertex vertex in vertices)
@@ -198,6 +196,7 @@ namespace GraphSplit.UIElements
 
         private void RemoveEdge(Edge edge)
         {
+            UpdateUndoHistory();
             edge.Vertex1.RemoveEdge(edge);
             edge.Vertex2.RemoveEdge(edge);
 
@@ -219,10 +218,24 @@ namespace GraphSplit.UIElements
             CommandChange(e.Command);
         }
 
-        private void MainForm_UndoCommand(object sender, EventArgs e) 
-        {
 
+        private void MainForm_UndoCommand(object sender, EventArgs e)
+        {
+            if (undoHistory.Count <= 0) return;
+
+            List<Vertex> lastState = undoHistory[undoHistory.Count - 1];
+            undoHistory.RemoveAt(undoHistory.Count - 1);
+            Load(lastState);
         }
+
+
+        private void UpdateUndoHistory()
+        {
+            undoHistory.Add(Vertex.CloneVertices(vertices));
+            if (undoHistory.Count > maxUndoCount)
+                undoHistory.RemoveAt(0);
+        }
+
 
         public void Load(List<Vertex> vertices) 
         {
@@ -241,5 +254,15 @@ namespace GraphSplit.UIElements
         }
 
         public List<Vertex> GetVertices() => vertices;
+
+        public void Clear() 
+        {
+            draggedVertex = null;
+            lastMouseLocation = Point.Empty;
+            undoHistory.Clear();
+            vertices.Clear();
+
+            pictureBox.Invalidate();
+        }
     }
 }

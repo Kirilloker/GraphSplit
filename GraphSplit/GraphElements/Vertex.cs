@@ -16,6 +16,12 @@
             Index = index;
         }
 
+        public Vertex(Vertex original)
+        {
+            Location = original.Location; 
+            Index = original.Index; 
+        }
+
         public void Draw(Graphics graphics, Graphics buffer, int index)
         {
             const int diameter = Radius * 2;
@@ -56,6 +62,41 @@
         public void RemoveConnectedVertex(Vertex removedVertex)
         {
             AdjacentEdgesRender.RemoveAll(edge => edge.Vertex1 == removedVertex || edge.Vertex2 == removedVertex);
+        }
+
+        public static List<Vertex> CloneVertices(List<Vertex> vertices)
+        {
+            var vertexMap = new Dictionary<Vertex, Vertex>();
+
+            var clonedVertices = new List<Vertex>();
+
+            foreach (var vertex in vertices)
+            {
+                var clonedVertex = new Vertex(vertex.Location, vertex.Index);
+                clonedVertices.Add(clonedVertex);
+                vertexMap[vertex] = clonedVertex;
+            }
+
+            foreach (var clonedVertex in clonedVertices)
+            {
+                var originalVertex = vertexMap.FirstOrDefault(kvp => kvp.Value == clonedVertex).Key;
+
+                if (originalVertex != null)
+                {
+                    foreach (var edge in originalVertex.AdjacentEdgesRender)
+                    {
+                        var clonedVertex1 = vertexMap[edge.Vertex1];
+                        var clonedVertex2 = vertexMap[edge.Vertex2];
+
+                        var clonedEdge = new Edge(clonedVertex1, clonedVertex2);
+
+                        clonedVertex1.AddEdge(clonedEdge);
+                        clonedVertex2.AddEdge(clonedEdge);
+                    }
+                }
+            }
+
+            return clonedVertices;
         }
     }
 }

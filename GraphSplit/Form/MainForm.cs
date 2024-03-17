@@ -1,7 +1,4 @@
 using GraphSplit.UIElements;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace GraphSplit
 {
@@ -12,18 +9,7 @@ namespace GraphSplit
         private Navbar navbar;
         private PaintArea paintArea;
 
-        private Command command = Command.None;
-
-        public event EventHandler<CommandEventArgs> EventSelectedCommand;
-
-        private readonly Dictionary<Keys, Command> keyCommandMap = new()
-        {
-            [Keys.V] = Command.AddVertex,
-            [Keys.D] = Command.DeleteElement,
-            [Keys.E] = Command.AddEdge
-        };
-
-        private MainForm()
+        public MainForm()
         {
             InitializeComponent();
             InitializeForm();
@@ -33,7 +19,7 @@ namespace GraphSplit
 
         public void InitializeForm()
         {
-            controlButtons = new ControlButtons(this);
+            controlButtons = new ControlButtons();
             paintArea = new PaintArea(this);
             navbar = new Navbar(this);
 
@@ -46,86 +32,29 @@ namespace GraphSplit
 
             tip.Initialize(GetButtons());
 
-            SelectedCommand(Command.AddVertex);
-        }
-
-        public static MainForm GetInstance() => instance ??= new MainForm();
-        private static MainForm instance;
-
-
-        public event EventHandler UndoCommand;
-        public event EventHandler SaveCommand;
-        public event EventHandler SaveAsCommand;
-
-        protected virtual void OnUndoCommand()
-        {
-            UndoCommand?.Invoke(this, EventArgs.Empty);
-        }
-
-        protected virtual void OnSaveCommand()
-        {
-            SaveCommand?.Invoke(this, EventArgs.Empty);
-        }
-
-        protected virtual void OnSaveAsCommand()
-        {
-            SaveAsCommand?.Invoke(this, EventArgs.Empty);
+            CommandHandler.SelectedCommand(Command.AddVertex);
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == (Keys.Control | Keys.Shift | Keys.S))
-            {
-                OnSaveAsCommand();
-                return true;
-            }
-
-            if (keyData == (Keys.Control | Keys.Z))
-            {
-                OnUndoCommand();
-                return true;
-            }
-
-            if (keyData == (Keys.Control | Keys.S)) 
-            {
-                OnSaveCommand();
-                return true;
-            }
-
-            if (keyCommandMap.TryGetValue(keyData, out Command cmd))
-            {
-                SelectedCommand(cmd);
-                return true;
-            }
-
-            return base.ProcessCmdKey(ref msg, keyData);
+            return CommandHandler.HandleKeyCommand(keyData) || base.ProcessCmdKey(ref msg, keyData);
         }
-
-        public void SelectedCommand(Command selectedCommand)
-        {
-            command = selectedCommand;
-            EventSelectedCommand?.Invoke(this, new CommandEventArgs(selectedCommand));
-        }
-
-        private string lastUseName = string.Empty;
 
         public string LastUseName
         {
-            get => lastUseName;
             set
             {
-                lastUseName = value;
                 string nameForm = "Редактор графов ";
                 nameForm += "(";
-                nameForm += string.IsNullOrEmpty(lastUseName) ? "*" : lastUseName;
+                nameForm += string.IsNullOrEmpty(value) ? "*" : value;
                 nameForm += ")";
                 this.Text = nameForm;
             }
         }
 
+
         public List<Button> GetButtons() => controlButtons.GetButtons();
         public int Width => ClientSize.Width;
         public int Height => ClientSize.Height;
-        public Command Command => command;
     }
 }

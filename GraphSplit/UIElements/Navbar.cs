@@ -1,5 +1,4 @@
 ﻿using GraphSplit.JSON;
-using GraphSplit.GraphElements;
 
 
 namespace GraphSplit.UIElements
@@ -50,8 +49,8 @@ namespace GraphSplit.UIElements
             menuStrip.Items.Add(aboutMenu);
 
 
-            mainForm.SaveCommand += SaveFileItem_Click;
-            mainForm.SaveAsCommand += SaveAsFileItem_Click;
+            CommandHandler.SaveCommand += SaveFileItem_Click;
+            CommandHandler.SaveAsCommand += SaveAsFileItem_Click;
 
             return menuStrip;
         }
@@ -111,7 +110,7 @@ namespace GraphSplit.UIElements
 
             SetLastUseName(string.Empty);
 
-            paintArea.Load(new List<Vertex>());
+            paintArea.Clear();
         }
 
 
@@ -128,6 +127,7 @@ namespace GraphSplit.UIElements
                 string filePath = openFileDialog.FileName;
                 SetLastUseName(filePath);
 
+                paintArea.Clear();
                 paintArea.Load(SaveLoadJSON.LoadFromJSON(filePath));
             }
         }

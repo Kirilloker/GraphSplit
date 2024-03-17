@@ -6,8 +6,7 @@ namespace GraphSplit
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            MainForm.GetInstance().Show();
-            Application.Run();
+            Application.Run(new MainForm());
         }
     }
 }

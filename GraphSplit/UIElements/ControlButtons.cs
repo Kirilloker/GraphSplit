@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace GraphSplit.UIElements
+﻿namespace GraphSplit.UIElements
 {
     public partial class ControlButtons
     {
         private Panel toolPanel;
         private readonly List<Button> buttons = new List<Button>();
-        private readonly MainForm mainForm;
 
-        public ControlButtons(MainForm mainForm)
+        public ControlButtons()
         {
-            this.mainForm = mainForm;
-            this.mainForm.EventSelectedCommand += MainForm_SelectedCommand;
+            CommandHandler.CommandSelected += MainForm_SelectedCommand;
         }
 
         public Panel Initialize()
@@ -56,9 +49,9 @@ namespace GraphSplit.UIElements
             buttons.Add(button);
         }
 
-        private void ButtonAddVertex_Click(object sender, EventArgs e) => mainForm.SelectedCommand(Command.AddVertex);
-        private void ButtonAddEdge_Click(object sender, EventArgs e) => mainForm.SelectedCommand(Command.AddEdge);
-        private void ButtonDeleteElement_Click(object sender, EventArgs e) => mainForm.SelectedCommand(Command.DeleteElement);
+        private void ButtonAddVertex_Click(object sender, EventArgs e) => CommandHandler.SelectedCommand(Command.AddVertex);
+        private void ButtonAddEdge_Click(object sender, EventArgs e) => CommandHandler.SelectedCommand(Command.AddEdge);
+        private void ButtonDeleteElement_Click(object sender, EventArgs e) => CommandHandler.SelectedCommand(Command.DeleteElement);
 
         private void MainForm_SelectedCommand(object sender, CommandEventArgs e)
         {
