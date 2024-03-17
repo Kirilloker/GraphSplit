@@ -51,7 +51,8 @@
 
         public void AddEdge(Edge edgeRender)
         {
-            AdjacentEdgesRender.Add(edgeRender);
+            if (AdjacentEdgesRender.Contains(edgeRender) == false)
+                AdjacentEdgesRender.Add(edgeRender);
         }
 
         public void RemoveEdge(Edge edgeRender)
@@ -63,6 +64,8 @@
         {
             AdjacentEdgesRender.RemoveAll(edge => edge.Vertex1 == removedVertex || edge.Vertex2 == removedVertex);
         }
+
+        public Color GetBorderColor() => BorderColor;
 
         public static List<Vertex> CloneVertices(List<Vertex> vertices)
         {
@@ -90,8 +93,8 @@
 
                         var clonedEdge = new Edge(clonedVertex1, clonedVertex2);
 
-                        clonedVertex1.AddEdge(clonedEdge);
-                        clonedVertex2.AddEdge(clonedEdge);
+                        //clonedVertex1.AddEdge(clonedEdge);
+                        //clonedVertex2.AddEdge(clonedEdge);
                     }
                 }
             }

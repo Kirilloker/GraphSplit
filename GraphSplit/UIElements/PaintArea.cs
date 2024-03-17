@@ -161,17 +161,17 @@ namespace GraphSplit.UIElements
             }
         }
 
-        private void CreateEdge(Vertex startVertex, Vertex endVertex)
+        public void CreateEdge(Vertex startVertex, Vertex endVertex)
         {
             UpdateUndoHistory();
             Edge newEdge = new Edge(startVertex, endVertex);
-            startVertex.AddEdge(newEdge);
-            endVertex.AddEdge(newEdge); 
+            //startVertex.AddEdge(newEdge);
+            //endVertex.AddEdge(newEdge); 
 
             pictureBox.Invalidate();
         }
 
-        private void CreateVertex(Point location)
+        public void CreateVertex(Point location)
         {
             UpdateUndoHistory();
             Vertex newVertex = new Vertex(location, vertices.Count);
@@ -180,7 +180,7 @@ namespace GraphSplit.UIElements
             pictureBox.Invalidate();
         }
 
-        private void RemoveVertex(Vertex removedVertex)
+        public void RemoveVertex(Vertex removedVertex)
         {
             UpdateUndoHistory();
             vertices.Remove(removedVertex);
@@ -194,7 +194,7 @@ namespace GraphSplit.UIElements
             pictureBox.Invalidate();
         }
 
-        private void RemoveEdge(Edge edge)
+        public void RemoveEdge(Edge edge)
         {
             UpdateUndoHistory();
             edge.Vertex1.RemoveEdge(edge);
@@ -219,7 +219,7 @@ namespace GraphSplit.UIElements
         }
 
 
-        private void MainForm_UndoCommand(object sender, EventArgs e)
+        public void MainForm_UndoCommand(object sender, EventArgs e)
         {
             if (undoHistory.Count <= 0) return;
 
@@ -229,7 +229,7 @@ namespace GraphSplit.UIElements
         }
 
 
-        private void UpdateUndoHistory()
+        public void UpdateUndoHistory()
         {
             undoHistory.Add(Vertex.CloneVertices(vertices));
             if (undoHistory.Count > maxUndoCount)
