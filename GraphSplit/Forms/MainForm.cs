@@ -13,6 +13,7 @@ namespace GraphSplit
         {
             InitializeComponent();
             InitializeForm();
+            GraphSettings.LoadSettings();
 
             this.FormClosing += (sender, e) => Application.Exit();
         }

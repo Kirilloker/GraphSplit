@@ -4,8 +4,6 @@
     {
         public Point Location { get; private set; }
         public int Index;
-        private const int Radius = 20;
-        private const int BorderWidth = 4;
         private Color BorderColor = Color.Blue;
 
         public List<Edge> AdjacentEdgesRender { get; } = new List<Edge>();
@@ -24,9 +22,9 @@
 
         public void Draw(Graphics graphics, Graphics buffer, int index)
         {
-            const int diameter = Radius * 2;
-            const int halfRadius = Radius / 2;
-            const int textOffset = -halfRadius / 2;
+            int diameter = Radius * 2;
+            int halfRadius = Radius / 2;
+            int textOffset = -halfRadius / 2;
 
             buffer.FillEllipse(Brushes.White, Location.X - Radius, Location.Y - Radius, diameter, diameter);
             buffer.DrawEllipse(new Pen(BorderColor, BorderWidth), Location.X - Radius, Location.Y - Radius, diameter, diameter);
@@ -92,14 +90,14 @@
                         var clonedVertex2 = vertexMap[edge.Vertex2];
 
                         var clonedEdge = new Edge(clonedVertex1, clonedVertex2);
-
-                        //clonedVertex1.AddEdge(clonedEdge);
-                        //clonedVertex2.AddEdge(clonedEdge);
                     }
                 }
             }
 
             return clonedVertices;
         }
+
+        private int Radius { get { return GraphSettings.VertexRadius; } }
+        private int BorderWidth { get { return GraphSettings.VertexBorder; } }
     }
 }

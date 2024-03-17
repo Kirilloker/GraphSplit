@@ -4,7 +4,7 @@
     {
         public Vertex Vertex1 { get; private set; }
         public Vertex Vertex2 { get; private set; }
-        private const int lineWidth = 3;
+        private Color ColorLine = Color.Black;
 
         public Edge(Vertex vertex1, Vertex vertex2)
         {
@@ -20,13 +20,18 @@
             if (graphics == null)
                 throw new ArgumentNullException(nameof(graphics));
 
-            graphics.DrawLine(new Pen(Color.Black, lineWidth), Vertex1.Location, Vertex2.Location);
+            graphics.DrawLine(new Pen(ColorLine, lineWidth), Vertex1.Location, Vertex2.Location);
         }
 
         public bool IsInside(Point point)
         {
             double distance = PointToLineDistance(point, Vertex1.Location, Vertex2.Location);
             return distance <= lineWidth;
+        }
+
+        public void ChangeColorLine(Color color)
+        {
+            ColorLine = color;
         }
 
         private double PointToLineDistance(Point point, Point lineStart, Point lineEnd)
@@ -72,5 +77,7 @@
                 return hash;
             }
         }
+
+        private int lineWidth { get { return GraphSettings.EdgeLineSize; } }
     }
 }

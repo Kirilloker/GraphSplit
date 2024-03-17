@@ -13,6 +13,7 @@ namespace GraphSplit.UIElements
         private const string OpenFileMenuItemText = "Открыть";
         private const string SaveFileItemText = "Сохранить";
         private const string SaveAsFileItemText = "Сохранить как";
+        private const string SettingsMenuText = "Настройки";
 
         private string lastUseName = string.Empty;
 
@@ -41,11 +42,14 @@ namespace GraphSplit.UIElements
                                                                   NewFileMenuItem,
                                                                   SaveFileItem,
                                                                   SaveAsFileItem);
-            // Создаем меню "О программе"
             ToolStripMenuItem aboutMenu = CreateToolStripMenuItem(AboutMenuText);
             aboutMenu.Click += AboutMenuItem_Click;
 
+            ToolStripMenuItem SettingsMenu = CreateToolStripMenuItem(SettingsMenuText);
+            SettingsMenu.Click += SettingsMenu_Click;
+
             menuStrip.Items.Add(fileMenu);
+            menuStrip.Items.Add(SettingsMenu);
             menuStrip.Items.Add(aboutMenu);
 
 
@@ -71,6 +75,12 @@ namespace GraphSplit.UIElements
         {
             AboutForm aboutForm = new AboutForm();
             aboutForm.ShowDialog();
+        }
+
+        private void SettingsMenu_Click(object sender, EventArgs e)
+        {
+            SettingsMenuForm settingMenuForm = new SettingsMenuForm();
+            settingMenuForm.ShowDialog();
         }
 
         private void SaveFileItem_Click(object sender, EventArgs e)

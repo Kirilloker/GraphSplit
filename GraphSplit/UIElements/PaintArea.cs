@@ -1,10 +1,14 @@
 ﻿using GraphSplit.GraphElements;
-using GraphSplit.JSON;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GraphSplit.UIElements
 {
     public partial class PaintArea
     {
+        private const int Width = 1000;
+        private const int Height = 700;
+
         private PictureBox pictureBox;
         private readonly MainForm mainForm;
         private List<Vertex> vertices = new();
@@ -14,8 +18,8 @@ namespace GraphSplit.UIElements
         private Point lastMouseLocation;
         private Vertex draggedVertex = null;
 
-        public PaintArea(MainForm mainForm) 
-        { 
+        public PaintArea(MainForm mainForm)
+        {
             this.mainForm = mainForm;
             CommandHandler.CommandSelected += MainForm_SelectedCommand;
             CommandHandler.UndoCommand += MainForm_UndoCommand;
@@ -25,10 +29,12 @@ namespace GraphSplit.UIElements
         {
             pictureBox = new PictureBox
             {
-                Size = new Size(600, 400),
-                Location = new Point((mainForm.Width - 600) / 2, (mainForm.Height - 400) / 2),
+                Size = new Size(Width, Height),
+                Location = new Point((mainForm.Width - Width) / 2, (mainForm.Height - Height) / 2),
                 BackColor = Color.White
             };
+
+            GraphSettings.SettingsChange += RefreshPaint;
 
             pictureBox.Paint += PictureBox_Paint;
             pictureBox.MouseDown += PictureBox_MouseDown;
@@ -62,6 +68,9 @@ namespace GraphSplit.UIElements
                     draggedVertex = clickedVertex;
                     lastMouseLocation = clickedVertex.Location;
                     clickedVertex.ChangeBorderColor(Color.Red);
+                    foreach (var edge in clickedVertex.AdjacentEdgesRender)
+                        edge.ChangeColorLine(Color.Red);
+
                     break;
                 case Command.DeleteElement:
                     RemoveVertex(clickedVertex);
@@ -155,6 +164,9 @@ namespace GraphSplit.UIElements
             if (CommandHandler.Command == Command.AddVertex && draggedVertex != null)
             {
                 draggedVertex.ChangeBorderColor(Color.Blue);
+                foreach (var edge in draggedVertex.AdjacentEdgesRender)
+                    edge.ChangeColorLine(Color.Black);
+
                 draggedVertex = null;
                 pictureBox.Invalidate();
                 UpdateUndoHistory();
@@ -237,15 +249,15 @@ namespace GraphSplit.UIElements
         }
 
 
-        public void Load(List<Vertex> vertices) 
+        public void Load(List<Vertex> vertices)
         {
             this.vertices = vertices;
             pictureBox.Invalidate();
         }
 
-        public void CommandChange(Command command) 
+        public void CommandChange(Command command)
         {
-            if (draggedVertex != null) 
+            if (draggedVertex != null)
                 draggedVertex.ChangeBorderColor(Color.Blue);
 
             draggedVertex = null;
@@ -255,7 +267,7 @@ namespace GraphSplit.UIElements
 
         public List<Vertex> GetVertices() => vertices;
 
-        public void Clear() 
+        public void Clear()
         {
             draggedVertex = null;
             lastMouseLocation = Point.Empty;
@@ -264,5 +276,11 @@ namespace GraphSplit.UIElements
 
             pictureBox.Invalidate();
         }
+
+        private void RefreshPaint(object sender, EventArgs e)
+        {
+            pictureBox.Invalidate();
+        }
+
     }
 }
