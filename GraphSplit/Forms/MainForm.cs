@@ -1,4 +1,5 @@
 using GraphSplit.UIElements;
+using GraphSplit.UIElements.Paint;
 
 namespace GraphSplit
 {
