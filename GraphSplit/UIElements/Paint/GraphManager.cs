@@ -1,8 +1,6 @@
-﻿using GraphSplit.GraphElements;
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Factorization;
+﻿using GraphSplit.Forms;
+using GraphSplit.GraphElements;
 using MultiagentAlgorithm;
-using System.Windows.Forms;
 using Vertex = GraphSplit.GraphElements.Vertex;
 
 namespace GraphSplit.UIElements.Paint
@@ -21,7 +19,7 @@ namespace GraphSplit.UIElements.Paint
             graphUndo = new(this);
             graphTools = new(this);
 
-            CommandHandler.Right += PressRight;
+            AlgorithmForm.AlgoritmApply += AlgorithmApply;
         }
 
 
@@ -172,64 +170,40 @@ namespace GraphSplit.UIElements.Paint
         bool first_test = false;
         List<Vertex> originaltest;
 
-
-        private void PressRight(object sender, EventArgs e)
+        private void AlgorithmApply(object sender, EventArgs e)
         {
-            if (first_test == false)
+            var options = AlgorithmForm.getOption();
+            var rnd = new Random(Environment.TickCount);
+            BaseGraph graph; 
+            graph = new GraphWithoutWeight(Vertex.CloneVertices(vertices), rnd);
+
+            switch (options.TypeWeightGraph)
             {
+                case TypeWeight.WithoutDistance:
+                    graph = new GraphWithoutWeight(Vertex.CloneVertices(vertices), rnd);
+                    break;
+                case TypeWeight.WithDistance:
+                    foreach (var vertex in vertices)
+                        foreach (var edge in vertex.AdjacentEdgesRender)
+                            edge.weight = edge.getLength();
+                    break;
+                case TypeWeight.WithNormalizeDistance:
+                    
+                    double maxLenght = 0;
+                    foreach (var vertex in vertices)
+                        foreach (var edge in vertex.AdjacentEdgesRender)
+                            maxLenght = Math.Max(maxLenght, edge.getLength());
 
+                    foreach (var vertex in vertices)
+                        foreach (var edge in vertex.AdjacentEdgesRender)
+                            edge.weight = ((maxLenght - edge.getLength()) / maxLenght) * 100;
 
-                double maxLenght = 0;
-                foreach (var vertex in vertices)
-                {
-                    foreach (var edge in vertex.AdjacentEdgesRender)
-                    {
-                        double lenght = edge.getLength();
-                        
-                        if (lenght > maxLenght) 
-                        {
-                            maxLenght = lenght;
-                        }
-                    }
-                }
-
-                foreach (var vertex in vertices)
-                {
-                    foreach (var edge in vertex.AdjacentEdgesRender)
-                    {
-                        double length = edge.getLength();
-
-                        edge.weight = ((maxLenght - length) / maxLenght) * 100;
-                        //edge.weight = length;
-                    }
-                }
-
-                first_test = true;
-                originaltest = Vertex.CloneVertices(Vertices);
+                    break;
+                default:
+                    break;
             }
 
-            //var vrt = GetConnectedComponents(Vertex.CloneVertices(originaltest));
-            //var x = new MultiLevelGraphPartitioning();
-            //var vrt = x.Partition(Vertex.CloneVertices(originaltest), 3);
-
-            //!!!!!!!!!!!!!!!!!!!!!
-            var rnd = new Random(Environment.TickCount);
-
-            BaseGraph graph;
-            //graph = new MetisUnweightedGraph(Vertex.CloneVertices(originaltest), rnd);
-            graph = new GraphWithWeight(Vertex.CloneVertices(vertices), rnd);
-            
-            var graphOptions = new Options(
-                numberOfAnts: 3,
-                numberOfPartitions: 2,
-                coloringProbability: 0.95,
-                movingProbability: 0.95,
-                numberOfVerticesForBalance: 20,
-                numberOfIterations: 500
-            );
-
-
-            var resultData = Algorithm.Run(graph, graphOptions, rnd);
+            var resultData = Algorithm.Run(graph, options, rnd);
 
             Color[] color = { Color.Red, Color.Yellow, Color.Green, Color.Blue };
             foreach (var item in resultData)
@@ -240,8 +214,9 @@ namespace GraphSplit.UIElements.Paint
             }
 
             paintArea.RefreshPaint();
-            //Load(vertices);
+
         }
+       
 
     }
 }

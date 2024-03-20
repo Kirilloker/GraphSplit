@@ -1,5 +1,7 @@
-﻿using GraphSplit.JSON;
+﻿using GraphSplit.Forms;
+using GraphSplit.JSON;
 using GraphSplit.UIElements.Paint;
+using MultiagentAlgorithm;
 
 namespace GraphSplit.UIElements
 {
@@ -8,18 +10,22 @@ namespace GraphSplit.UIElements
         public Navbar(MainForm mainForm) { this.mainForm = mainForm; }
 
         private const string FileMenuText = "Файл";
-        private const string AboutMenuText = "О программе";
         private const string NewFileMenuItemText = "Создать";
         private const string OpenFileMenuItemText = "Открыть";
         private const string SaveFileItemText = "Сохранить";
         private const string SaveAsFileItemText = "Сохранить как";
+
         private const string SettingsMenuText = "Настройки";
 
+        private const string AboutMenuText = "О программе";
 
         private const string OptionsMenuText = "Опции";
         private const string Generate10VertexText = "Создать граф с 10 случайными вершинами";
         private const string Generate20VertexText = "Создать граф с 20 случайными вершинами";
         private const string Generate30VertexText = "Создать граф с 30 случайными вершинами";
+
+        private const string AlgorithmMenuText = "Алгоритм";
+
 
         private string lastUseName = string.Empty;
 
@@ -48,6 +54,7 @@ namespace GraphSplit.UIElements
                                                                   NewFileMenuItem,
                                                                   SaveFileItem,
                                                                   SaveAsFileItem);
+            
             ToolStripMenuItem aboutMenu = CreateToolStripMenuItem(AboutMenuText);
             aboutMenu.Click += AboutMenuItem_Click;
 
@@ -80,6 +87,11 @@ namespace GraphSplit.UIElements
 
             menuStrip.Items.Add(optionsMenu);
 
+            ToolStripMenuItem algorithmMenu = CreateToolStripMenuItem(AlgorithmMenuText);
+            algorithmMenu.Click += AlgorithmMenuItem_Click;
+
+            menuStrip.Items.Add(algorithmMenu);
+
             return menuStrip;
         }
 
@@ -101,10 +113,16 @@ namespace GraphSplit.UIElements
             aboutForm.ShowDialog();
         }
 
+        private void AlgorithmMenuItem_Click(object sender, EventArgs e)
+        {
+            AlgorithmForm algorithmForm = new AlgorithmForm();
+            algorithmForm.Show();
+        }
+
         private void SettingsMenu_Click(object sender, EventArgs e)
         {
             SettingsMenuForm settingMenuForm = new SettingsMenuForm();
-            settingMenuForm.ShowDialog();
+            settingMenuForm.Show();
         }
 
         private void SaveFileItem_Click(object sender, EventArgs e)
