@@ -90,6 +90,7 @@
                         var clonedVertex2 = vertexMap[edge.Vertex2];
 
                         var clonedEdge = new Edge(clonedVertex1, clonedVertex2);
+                        clonedEdge.weight = edge.weight;
                     }
                 }
             }

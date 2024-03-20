@@ -1,11 +1,13 @@
-﻿namespace GraphSplit.GraphElements
+﻿using MultiagentAlgorithm;
+
+namespace GraphSplit.GraphElements
 {
     public class Edge
     {
         public Vertex Vertex1 { get; private set; }
         public Vertex Vertex2 { get; private set; }
         private Color ColorLine = Color.Black;
-
+        
         public Edge(Vertex vertex1, Vertex vertex2)
         {
             Vertex1 = vertex1 ?? throw new ArgumentNullException(nameof(vertex1));
@@ -14,6 +16,16 @@
             vertex1.AddEdge(this);
             vertex2.AddEdge(this);
         }
+
+        public double weight;
+        public double getLength()
+        {
+            double deltaX = Vertex1.Location.X - Vertex2.Location.X;
+            double deltaY = Vertex1.Location.Y - Vertex2.Location.Y;
+
+            return Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2));
+        }
+
 
         public void Draw(Graphics graphics)
         {
@@ -79,5 +91,11 @@
         }
 
         private int lineWidth { get { return GraphSettings.EdgeLineSize; } }
+
+        public Vertex GetOtherVertex(Vertex vertex) 
+        {
+            if (Vertex1.Location == vertex.Location) return Vertex2;
+            return Vertex1;
+        }
     }
 }

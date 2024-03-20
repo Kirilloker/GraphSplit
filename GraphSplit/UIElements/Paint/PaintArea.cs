@@ -57,7 +57,7 @@ namespace GraphSplit.UIElements.Paint
                     edge.Draw(e.Graphics);
 
             foreach (Vertex vertex in graphManager.Vertices)
-                vertex.Draw(e.Graphics, e.Graphics, vertex.Index + 1);
+                vertex.Draw(e.Graphics, e.Graphics, vertex.Index);
         }
 
 
@@ -75,7 +75,7 @@ namespace GraphSplit.UIElements.Paint
 
         public void Load(List<Vertex> vertices)
         {
-            graphManager.Vertices = vertices;
+            graphManager.Load(vertices);
         }
 
         private void MainForm_SelectedCommand(object sender, CommandEventArgs e) => RefreshPaint();
