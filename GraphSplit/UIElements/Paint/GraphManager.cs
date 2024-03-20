@@ -102,7 +102,7 @@ namespace GraphSplit.UIElements.Paint
         {
             foreach (var vertex in vertices) 
             {
-                vertex.ChangeBorderColor(Color.Blue);
+                vertex.ReturnDefaultColor();
 
                 foreach (var edge in vertex.AdjacentEdgesRender)
                     edge.ChangeColorLine(Color.Black);
@@ -154,22 +154,6 @@ namespace GraphSplit.UIElements.Paint
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-        int test = -1;
-        bool first_test = false;
-        List<Vertex> originaltest;
-
         private void AlgorithmApply(object sender, EventArgs e)
         {
             var options = AlgorithmForm.getOption();
@@ -205,18 +189,23 @@ namespace GraphSplit.UIElements.Paint
 
             var resultData = Algorithm.Run(graph, options, rnd);
 
-            Color[] color = { Color.Red, Color.Yellow, Color.Green, Color.Blue };
+            Color[] color = { Color.Red, Color.Yellow, Color.Green, Color.Blue,
+                              Color.Brown, Color.DarkGray, Color.DarkGreen,
+                              Color.Gold, Color.DarkOliveGreen, Color.DarkSalmon,
+                              Color.DarkOrange, Color.DarkSlateGray, Color.DarkViolet,};
+
             foreach (var item in resultData)
             {
                 var vertex = vertices.FirstOrDefault(v => v.Index == item.ID);
-                if (vertex != null)
-                    vertex.ChangeBorderColor(color[item.Color]);
+                if (vertex != null) 
+                {
+                    vertex.SetDefaultColor(color[item.Color]);
+                    vertex.ReturnDefaultColor();
+                }
             }
 
             paintArea.RefreshPaint();
 
         }
-       
-
     }
 }

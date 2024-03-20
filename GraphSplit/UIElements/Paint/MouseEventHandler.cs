@@ -164,7 +164,7 @@ namespace GraphSplit.UIElements.Paint
 
         private void HandleAddVertexMouseUp()
         {
-            draggedVertex.ChangeBorderColor(Color.Blue);
+            draggedVertex.ReturnDefaultColor();
 
             foreach (var edge in draggedVertex.AdjacentEdgesRender)
                 edge.ChangeColorLine(Color.Black);
@@ -195,7 +195,7 @@ namespace GraphSplit.UIElements.Paint
             }
             else
             {
-                draggedVertex.ChangeBorderColor(Color.Blue);
+                draggedVertex.ReturnDefaultColor();
                 graphManager.CreateEdge(draggedVertex, clickedVertex);
                 draggedVertex = null;
             }
@@ -203,7 +203,7 @@ namespace GraphSplit.UIElements.Paint
         public void CommandChange(Command command)
         {
             if (draggedVertex != null)
-                draggedVertex.ChangeBorderColor(Color.Blue);
+                draggedVertex.ReturnDefaultColor();
 
             draggedVertex = null;
         }

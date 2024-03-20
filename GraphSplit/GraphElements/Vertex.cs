@@ -4,7 +4,8 @@
     {
         public Point Location { get; private set; }
         public int Index;
-        private Color BorderColor = Color.Blue;
+        private Color CurrentColor = Color.Blue;
+        private Color DefaultColor = Color.Blue;
 
         public List<Edge> AdjacentEdgesRender { get; } = new List<Edge>();
 
@@ -27,7 +28,7 @@
             int textOffset = -halfRadius / 2;
 
             buffer.FillEllipse(Brushes.White, Location.X - Radius, Location.Y - Radius, diameter, diameter);
-            buffer.DrawEllipse(new Pen(BorderColor, BorderWidth), Location.X - Radius, Location.Y - Radius, diameter, diameter);
+            buffer.DrawEllipse(new Pen(CurrentColor, BorderWidth), Location.X - Radius, Location.Y - Radius, diameter, diameter);
             graphics.DrawString(index.ToString(), SystemFonts.DefaultFont, Brushes.Black, Location.X + textOffset, Location.Y + textOffset);
         }
 
@@ -44,7 +45,17 @@
 
         public void ChangeBorderColor(Color color)
         {
-            BorderColor = color;
+            CurrentColor = color;
+        }
+
+        public void SetDefaultColor(Color color) 
+        {
+            DefaultColor = color;
+        }
+
+        public void ReturnDefaultColor() 
+        {
+            CurrentColor = DefaultColor;
         }
 
         public void AddEdge(Edge edgeRender)
@@ -63,7 +74,7 @@
             AdjacentEdgesRender.RemoveAll(edge => edge.Vertex1 == removedVertex || edge.Vertex2 == removedVertex);
         }
 
-        public Color GetBorderColor() => BorderColor;
+        public Color GetBorderColor() => CurrentColor;
 
         public static List<Vertex> CloneVertices(List<Vertex> vertices)
         {
