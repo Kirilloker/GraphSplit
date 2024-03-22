@@ -117,8 +117,10 @@
         }
         public bool IsConnectedTo(Vertex other)
         {
-            return AdjacentEdgesRender.Any(edge => edge.Vertex1 == other || edge.Vertex2 == other);
+            return ConnectedVertices.Contains(other);
         }
+
+        public List<Vertex> ConnectedVertices { get; set; } = new List<Vertex>();
 
         private int Radius { get { return GraphSettings.VertexRadius; } }
         private int BorderWidth { get { return GraphSettings.VertexBorder; } }

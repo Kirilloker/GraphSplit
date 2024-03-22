@@ -67,7 +67,7 @@ namespace GraphSplit.UIElements.Paint
             paintArea.RefreshPaint();
         }
 
-        public void CreateVertex(Point location)
+        public Vertex CreateVertex(Point location)
         {
             graphUndo.UpdateUndoHistory(vertices);
 
@@ -75,6 +75,8 @@ namespace GraphSplit.UIElements.Paint
             vertices.Add(newVertex);
 
             paintArea.RefreshPaint();
+
+            return newVertex;
         }
 
         public void RemoveVertex(Vertex removedVertex)
