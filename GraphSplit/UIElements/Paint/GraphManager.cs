@@ -1,6 +1,5 @@
 ﻿using GraphSplit.Forms;
 using GraphSplit.GraphElements;
-using MultiagentAlgorithm;
 using Vertex = GraphSplit.GraphElements.Vertex;
 
 namespace GraphSplit.UIElements.Paint
@@ -153,59 +152,25 @@ namespace GraphSplit.UIElements.Paint
             graphUndo.Clear();
         }
 
+        bool firstClick = true;
+        List<List<Vertex>> test = new();
+        int click = 0;
 
         private void AlgorithmApply(object sender, EventArgs e)
         {
-            var options = AlgorithmForm.getOption();
-            var rnd = new Random(Environment.TickCount);
-            BaseGraph graph; 
-            graph = new GraphWithoutWeight(Vertex.CloneVertices(vertices), rnd);
-
-            switch (options.TypeWeightGraph)
+            if (firstClick == true) 
             {
-                case TypeWeight.WithoutDistance:
-                    graph = new GraphWithoutWeight(Vertex.CloneVertices(vertices), rnd);
-                    break;
-                case TypeWeight.WithDistance:
-                    foreach (var vertex in vertices)
-                        foreach (var edge in vertex.AdjacentEdgesRender)
-                            edge.weight = edge.getLength();
-                    break;
-                case TypeWeight.WithNormalizeDistance:
-                    
-                    double maxLenght = 0;
-                    foreach (var vertex in vertices)
-                        foreach (var edge in vertex.AdjacentEdgesRender)
-                            maxLenght = Math.Max(maxLenght, edge.getLength());
-
-                    foreach (var vertex in vertices)
-                        foreach (var edge in vertex.AdjacentEdgesRender)
-                            edge.weight = ((maxLenght - edge.getLength()) / maxLenght) * 100;
-
-                    break;
-                default:
-                    break;
+                var algTest = new GraphPartitioner();
+                test = algTest.PartitionGraph(Vertex.CloneVertices(vertices));
+                firstClick = false;
             }
 
-            var resultData = Algorithm.Run(graph, options, rnd);
+            if (click >= test.Count) return;
 
-            Color[] color = { Color.Red, Color.Yellow, Color.Green, Color.Blue,
-                              Color.Brown, Color.DarkGray, Color.DarkGreen,
-                              Color.Gold, Color.DarkOliveGreen, Color.DarkSalmon,
-                              Color.DarkOrange, Color.DarkSlateGray, Color.DarkViolet,};
+            Load(test[click]);
+            click++;
 
-            foreach (var item in resultData)
-            {
-                var vertex = vertices.FirstOrDefault(v => v.Index == item.ID);
-                if (vertex != null) 
-                {
-                    vertex.SetDefaultColor(color[item.Color]);
-                    vertex.ReturnDefaultColor();
-                }
-            }
-
-            paintArea.RefreshPaint();
-
+            return;
         }
     }
 }

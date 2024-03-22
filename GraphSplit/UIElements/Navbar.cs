@@ -1,7 +1,6 @@
 ﻿using GraphSplit.Forms;
 using GraphSplit.JSON;
 using GraphSplit.UIElements.Paint;
-using MultiagentAlgorithm;
 
 namespace GraphSplit.UIElements
 {

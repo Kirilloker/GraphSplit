@@ -29,10 +29,10 @@
 
         private void InitializeButtons()
         {
-            InitializeButton("D:\\Charp\\GraphSplit\\GraphSplit\\bin\\Debug\\net6.0-windows\\addVertexIcon.png", ButtonAddVertex_Click, 0);
-            InitializeButton("D:\\Charp\\GraphSplit\\GraphSplit\\bin\\Debug\\net6.0-windows\\addEdgeIcon.png", ButtonAddEdge_Click, 1);
-            InitializeButton("D:\\Charp\\GraphSplit\\GraphSplit\\bin\\Debug\\net6.0-windows\\DeleteElementIcon.png", ButtonDeleteElement_Click, 2);
-            InitializeButton("D:\\Charp\\GraphSplit\\GraphSplit\\bin\\Debug\\net6.0-windows\\MovingIcon.png", ButtonMoving_Click, 3);
+            InitializeButton("addVertexIcon.png", ButtonAddVertex_Click, 0);
+            InitializeButton("addEdgeIcon.png", ButtonAddEdge_Click, 1);
+            InitializeButton("DeleteElementIcon.png", ButtonDeleteElement_Click, 2);
+            InitializeButton("MovingIcon.png", ButtonMoving_Click, 3);
         }
 
         private void InitializeButton(string imageName, EventHandler clickHandler, int position)

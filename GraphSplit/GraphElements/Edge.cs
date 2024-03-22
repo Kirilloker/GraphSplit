@@ -1,6 +1,4 @@
-﻿using MultiagentAlgorithm;
-
-namespace GraphSplit.GraphElements
+﻿namespace GraphSplit.GraphElements
 {
     public class Edge
     {
@@ -17,7 +15,6 @@ namespace GraphSplit.GraphElements
             vertex2.AddEdge(this);
         }
 
-        public double weight;
         public double getLength()
         {
             double deltaX = Vertex1.Location.X - Vertex2.Location.X;
@@ -25,7 +22,6 @@ namespace GraphSplit.GraphElements
 
             return Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2));
         }
-
 
         public void Draw(Graphics graphics)
         {
@@ -44,6 +40,15 @@ namespace GraphSplit.GraphElements
         public void ChangeColorLine(Color color)
         {
             ColorLine = color;
+        }
+
+        public void Destroy()
+        {
+            if (Vertex1 != null) Vertex1.RemoveEdge(this);
+            if (Vertex2 != null) Vertex2.RemoveEdge(this);
+
+            Vertex1 = null;
+            Vertex2 = null;
         }
 
         private double PointToLineDistance(Point point, Point lineStart, Point lineEnd)
@@ -65,7 +70,11 @@ namespace GraphSplit.GraphElements
             return Math.Sqrt(Math.Pow(point.X - closestPoint.X, 2) + Math.Pow(point.Y - closestPoint.Y, 2));
         }
 
-
+        public Vertex GetOtherVertex(Vertex vertex)
+        {
+            if (Vertex1.Location == vertex.Location) return Vertex2;
+            return Vertex1;
+        }
 
         public override bool Equals(object obj)
         {
@@ -92,10 +101,6 @@ namespace GraphSplit.GraphElements
 
         private int lineWidth { get { return GraphSettings.EdgeLineSize; } }
 
-        public Vertex GetOtherVertex(Vertex vertex) 
-        {
-            if (Vertex1.Location == vertex.Location) return Vertex2;
-            return Vertex1;
-        }
+
     }
 }

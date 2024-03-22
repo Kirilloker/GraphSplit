@@ -2,24 +2,22 @@
 {
     public class Vertex
     {
-        public Point Location { get; private set; }
+        public Point Location;
         public int Index;
         private Color CurrentColor = Color.Blue;
         private Color DefaultColor = Color.Blue;
+        public bool testExist = true;
 
-        public List<Edge> AdjacentEdgesRender { get; } = new List<Edge>();
+        public List<Edge> AdjacentEdgesRender = new List<Edge>();
+
+        public List<int> CombinedVerticesIndex { get; set; } = new List<int>();
 
         public Vertex(Point location, int index)
         {
             Location = location;
             Index = index;
         }
-
-        public Vertex(Vertex original)
-        {
-            Location = original.Location; 
-            Index = original.Index; 
-        }
+ 
 
         public void Draw(Graphics graphics, Graphics buffer, int index)
         {
@@ -29,7 +27,7 @@
 
             buffer.FillEllipse(Brushes.White, Location.X - Radius, Location.Y - Radius, diameter, diameter);
             buffer.DrawEllipse(new Pen(CurrentColor, BorderWidth), Location.X - Radius, Location.Y - Radius, diameter, diameter);
-            graphics.DrawString(index.ToString(), SystemFonts.DefaultFont, Brushes.Black, Location.X + textOffset, Location.Y + textOffset);
+            //graphics.DrawString(index.ToString(), SystemFonts.DefaultFont, Brushes.Black, Location.X + textOffset, Location.Y + textOffset);
         }
 
         public bool IsInside(Point point)
@@ -78,31 +76,40 @@
 
         public static List<Vertex> CloneVertices(List<Vertex> vertices)
         {
-            var vertexMap = new Dictionary<Vertex, Vertex>();
-
+            var vertexMap = new Dictionary<int, Vertex>();
             var clonedVertices = new List<Vertex>();
 
             foreach (var vertex in vertices)
             {
+                if (!vertex.testExist) continue;
                 var clonedVertex = new Vertex(vertex.Location, vertex.Index);
+                clonedVertex.DefaultColor = vertex.DefaultColor;
+                clonedVertex.CurrentColor = vertex.CurrentColor;
+                clonedVertex.testExist = vertex.testExist;
                 clonedVertices.Add(clonedVertex);
-                vertexMap[vertex] = clonedVertex;
+                vertexMap[vertex.GetHash()] = clonedVertex;
             }
 
-            foreach (var clonedVertex in clonedVertices)
+            foreach (var originalVertex in vertices)
             {
-                var originalVertex = vertexMap.FirstOrDefault(kvp => kvp.Value == clonedVertex).Key;
+                if (!originalVertex.testExist) continue;
 
-                if (originalVertex != null)
+                var clonedVertex = vertexMap[originalVertex.GetHash()];
+                foreach (var edge in originalVertex.AdjacentEdgesRender)
                 {
-                    foreach (var edge in originalVertex.AdjacentEdgesRender)
+                    var clonedVertex1 = vertexMap[edge.Vertex1.GetHash()];
+                    var clonedVertex2 = vertexMap[edge.Vertex2.GetHash()];
+                    if (!clonedVertex1.AdjacentEdgesRender.Exists(e => e.Vertex1 == clonedVertex1 && e.Vertex2 == clonedVertex2) && 
+                        !clonedVertex1.AdjacentEdgesRender.Exists(e => e.Vertex1 == clonedVertex2 && e.Vertex2 == clonedVertex1))
                     {
-                        var clonedVertex1 = vertexMap[edge.Vertex1];
-                        var clonedVertex2 = vertexMap[edge.Vertex2];
-
-                        var clonedEdge = new Edge(clonedVertex1, clonedVertex2);
-                        clonedEdge.weight = edge.weight;
+                        var clonedEdge = new Edge(clonedVertex1, clonedVertex2) { };
                     }
+                }
+
+                foreach (var combinedVertexIndex in originalVertex.CombinedVerticesIndex)
+                {
+                    if (clonedVertex.CombinedVerticesIndex.Contains(combinedVertexIndex) == false)
+                        clonedVertex.CombinedVerticesIndex.Add(combinedVertexIndex);
                 }
             }
 
@@ -115,5 +122,10 @@
 
         private int Radius { get { return GraphSettings.VertexRadius; } }
         private int BorderWidth { get { return GraphSettings.VertexBorder; } }
+    
+        public int GetHash() 
+        {
+            return Index * 100000 + AdjacentEdgesRender.Count + Location.X * 3 + Location.Y * 2;
+        }
     }
 }

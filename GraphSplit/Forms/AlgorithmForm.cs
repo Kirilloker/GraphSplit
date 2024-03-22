@@ -1,6 +1,4 @@
-﻿using MultiagentAlgorithm;
-
-namespace GraphSplit.Forms
+﻿namespace GraphSplit.Forms
 {
     public partial class AlgorithmForm : Form
     {
@@ -10,7 +8,6 @@ namespace GraphSplit.Forms
         private static double movingProbability = 0.95;
         private static int numberOfVerticesForBalance = 20;
         private static int numberOfIterations = 500;
-        private static TypeWeight selectedOption;
 
 
         public static event EventHandler AlgoritmApply;
@@ -145,21 +142,6 @@ namespace GraphSplit.Forms
                 numberOfVerticesForBalance = int.Parse(numberOfVerticesForBalanceTextBox.Text);
                 numberOfIterations = int.Parse(numberOfIterationsTextBox.Text);
 
-                switch (checkBoxComboBox.SelectedItem.ToString())
-                {
-                    case "Без учета расстояния":
-                        selectedOption = TypeWeight.WithoutDistance;
-                        break;
-                    case "С учетом расстояния":
-                        selectedOption = TypeWeight.WithDistance;
-                        break;
-                    case "С учетом нормализованного расстояния":
-                        selectedOption = TypeWeight.WithNormalizeDistance;
-                        break;
-                    default:
-                        selectedOption = TypeWeight.WithoutDistance;
-                        break;
-                }
 
                 AlgoritmApply?.Invoke(null, EventArgs.Empty);
             }
@@ -185,17 +167,5 @@ namespace GraphSplit.Forms
             return isValid;
         }
 
-        public static Options getOption() 
-        {
-            return new Options(
-                numberOfAnts: numberOfAnts,
-                numberOfPartitions: numberOfPartitions,
-                coloringProbability: coloringProbability,
-                movingProbability: movingProbability,
-                numberOfVerticesForBalance: numberOfVerticesForBalance,
-                numberOfIterations: numberOfIterations,
-                typeWeight: selectedOption
-            );
-        }
     }
 }
