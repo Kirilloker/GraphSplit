@@ -1,13 +1,14 @@
 ﻿using GraphSplit.GraphElements;
-using System.Collections.Generic;
 
 namespace GraphSplit
 {
     public class GraphPartitioner
     {
-        public List<List<Vertex>> PartitionGraph(List<Vertex> vertices)
+        int countSubGraph = 4;
+        public List<List<Vertex>> PartitionGraph(List<Vertex> vertices, bool showAllSteps = true, int _countSubGraph = 4)
         {
             var steps = new List<List<Vertex>> { };
+            countSubGraph = _countSubGraph;
 
             var coarsenedGraph = CoarsenGraph(vertices);
             steps.AddRange(coarsenedGraph);
@@ -18,6 +19,8 @@ namespace GraphSplit
             steps.AddRange(uncoarsenedGraph);
 
             steps.Add(DeleteEdgeWithDifferentColor(steps[^1]));
+
+            if (showAllSteps == false) return new List<List<Vertex>>() { steps[^1] };
 
             return steps;
         }
@@ -35,7 +38,7 @@ namespace GraphSplit
             var currentStepVertices = CloneVertices(originalVertices);
 
 
-            while (currentStepVertices.Count(vertex => vertex.testExist == true) > 4)
+            while (currentStepVertices.Count(vertex => vertex.testExist == true) > countSubGraph)
             {
                 var visited = new HashSet<Vertex>();
 
@@ -74,7 +77,7 @@ namespace GraphSplit
 
                         visited.Add(vertex);
                     }
-                    if (currentStepVertices.Count(vertex => vertex.testExist == true) <= 4) break;
+                    if (currentStepVertices.Count(vertex => vertex.testExist == true) <= countSubGraph) break;
                 }
                 currentStepVertices.RemoveAll(vertex => vertex.testExist == false);
 
@@ -86,7 +89,7 @@ namespace GraphSplit
 
         public bool ShouldContinueCoarsening(List<Vertex> vertices)
         {
-            if (vertices.Count <= 4) return false;
+            if (vertices.Count <= countSubGraph) return false;
             return true;
         }
 
@@ -141,14 +144,25 @@ namespace GraphSplit
 
         private void PartitionCoarsenedGraph(List<Vertex> coarsenedGraph)
         {
-            coarsenedGraph[0].SetDefaultColor(Color.Red);
-            coarsenedGraph[0].ChangeBorderColor(Color.Red);
-            coarsenedGraph[1].SetDefaultColor(Color.Yellow);
-            coarsenedGraph[1].ChangeBorderColor(Color.Yellow);
-            coarsenedGraph[2].SetDefaultColor(Color.Green);
-            coarsenedGraph[2].ChangeBorderColor(Color.Green);
-            coarsenedGraph[3].SetDefaultColor(Color.Black);
-            coarsenedGraph[3].ChangeBorderColor(Color.Black);
+            List<Color> colors = new() 
+            {
+                Color.Red,
+                Color.Yellow, 
+                Color.Green,
+                Color.Black,
+                Color.Blue,
+                Color.Magenta,
+                Color.Gray,
+                Color.Coral,
+                Color.DeepPink
+            };
+
+            for (int i = 0; i < countSubGraph; i++)
+            {
+                coarsenedGraph[i].ChangeBorderColor(colors[i % colors.Count]);
+                coarsenedGraph[i].SetDefaultColor(colors[i % colors.Count]);
+            }
+
         }
 
         private Color GetColorByIndex(int index, List<Vertex> vertices)

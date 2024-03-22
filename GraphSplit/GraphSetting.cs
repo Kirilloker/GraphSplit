@@ -66,7 +66,7 @@ namespace GraphSplit
 
         public static void ChangeVertexRadius(int newValue)
         {
-            vertexRadius = Math.Clamp(newValue, 10, 60);
+            vertexRadius = Math.Clamp(newValue, 5, 60);
             SettingsChange?.Invoke(null, EventArgs.Empty);
         }
 

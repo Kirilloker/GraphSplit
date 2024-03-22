@@ -19,9 +19,10 @@ namespace GraphSplit.UIElements
         private const string AboutMenuText = "О программе";
 
         private const string OptionsMenuText = "Опции";
-        private const string Generate10VertexText = "Создать граф с 10 случайными вершинами";
-        private const string Generate20VertexText = "Создать граф с 20 случайными вершинами";
-        private const string Generate30VertexText = "Создать граф с 30 случайными вершинами";
+        private const string Generate10VertexText = "Создать граф с 30 случайными вершинами";
+        private const string Generate20VertexText = "Создать граф с 40 случайными вершинами";
+        private const string Generate30VertexText = "Создать граф с 50 случайными вершинами";
+        private const string DeepSettingsGenerateVertexText = "Глубокая настройка создание графа";
 
         private const string AlgorithmMenuText = "Алгоритм";
 
@@ -72,17 +73,21 @@ namespace GraphSplit.UIElements
             var optionsMenu = new ToolStripMenuItem(OptionsMenuText);
 
             var randomGraph10 = new ToolStripMenuItem(Generate10VertexText);
-            randomGraph10.Click += (sender, e) => paintArea.GenerateRandomGraph(10);
+            randomGraph10.Click += (sender, e) => paintArea.GenerateRandomGraph(30, 100, 200);
 
             var randomGraph20 = new ToolStripMenuItem(Generate20VertexText);
-            randomGraph20.Click += (sender, e) => paintArea.GenerateRandomGraph(20);
+            randomGraph20.Click += (sender, e) => paintArea.GenerateRandomGraph(40, 80, 170);
 
             var randomGraph30 = new ToolStripMenuItem(Generate30VertexText);
-            randomGraph30.Click += (sender, e) => paintArea.GenerateRandomGraph(30);
+            randomGraph30.Click += (sender, e) => paintArea.GenerateRandomGraph(50, 60, 150);
+
+            var deepGenerate = new ToolStripMenuItem(DeepSettingsGenerateVertexText);
+            deepGenerate.Click += DeepSettingsGenerate_Click;
 
             optionsMenu.DropDownItems.Add(randomGraph10);
             optionsMenu.DropDownItems.Add(randomGraph20);
             optionsMenu.DropDownItems.Add(randomGraph30);
+            optionsMenu.DropDownItems.Add(deepGenerate);
 
             menuStrip.Items.Add(optionsMenu);
 
@@ -110,6 +115,12 @@ namespace GraphSplit.UIElements
         {
             AboutForm aboutForm = new AboutForm();
             aboutForm.ShowDialog();
+        }
+
+        private void DeepSettingsGenerate_Click(object sender, EventArgs e)
+        {
+            DeepSettingGenerate deepForm = new DeepSettingGenerate(paintArea);
+            deepForm.Show();
         }
 
         private void AlgorithmMenuItem_Click(object sender, EventArgs e)

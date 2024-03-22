@@ -22,11 +22,9 @@ namespace GraphSplit.UIElements.Paint
         }
 
         private Random rnd = new Random();
-        public void GenerateRandomGraph(int verticesCount, int width, int height)
+        public bool GenerateRandomGraph(int verticesCount, int width, int height, int minDistance, int maxDistance)
         {
-            const int minDistance = 100;
-            const int connectionRadius = 150;
-
+            List<Vertex> vertices = new List<Vertex>();
             const int maxPlacementAttempts = 1000;
 
             for (int i = 0; i < verticesCount; i++)
@@ -39,9 +37,11 @@ namespace GraphSplit.UIElements.Paint
                         rnd.Next(minDistance, height - minDistance)
                     );
 
-                    if (!graphManager.Vertices.Any(v => Distance(v.Location, point) < minDistance))
+                    //if (!graphManager.Vertices.Any(v => Distance(v.Location, point) < minDistance))
+                    if (!vertices.Any(v => Distance(v.Location, point) < minDistance))
                     {
-                        graphManager.CreateVertex(point);
+                        //graphManager.CreateVertex(point);
+                        vertices.Add(new Vertex(point, vertices.Count));
                         placed = true;
                         break;
                     }
@@ -49,19 +49,24 @@ namespace GraphSplit.UIElements.Paint
 
                 if (!placed)
                 {
-                    throw new Exception("Невозможно создать граф при таких параметрах");
+                    if ((vertices.Count <= 50) && (minDistance <= 100) && (maxDistance <= 200))
+                        return GenerateRandomGraph(verticesCount, width, height, minDistance, maxDistance);
+                    return false;
                 }
             }
 
-            foreach (var vertex in graphManager.Vertices)
+            foreach (var vertex in vertices)
+            //foreach (var vertex in graphManager.Vertices)
             {
-                var potentialNeighbors = graphManager.Vertices
-                    .Where(v => v != vertex && Distance(v.Location, vertex.Location) <= connectionRadius)
+                //var potentialNeighbors = graphManager.Vertices
+                var potentialNeighbors = vertices
+                    .Where(v => v != vertex && Distance(v.Location, vertex.Location) <= maxDistance)
                     .ToList();
 
                 if (potentialNeighbors.Count == 0)
                 {
-                    var closestVertex = graphManager.Vertices
+                    var closestVertex = vertices
+                    //var closestVertex = graphManager.Vertices
                         .Where(v => v != vertex)
                         .OrderBy(v => Distance(v.Location, vertex.Location))
                         .First();
@@ -75,12 +80,24 @@ namespace GraphSplit.UIElements.Paint
                 {
                     if (!vertex.IsConnectedTo(neighbor))
                     {
-                        graphManager.CreateEdge(vertex, neighbor);
+                        //graphManager.CreateEdge(vertex, neighbor);
+                        new Edge(GetVertexById(vertex.Index, vertices), GetVertexById(neighbor.Index, vertices));
                         vertex.ConnectedVertices.Add(neighbor);
                         neighbor.ConnectedVertices.Add(vertex);
                     }
                 }
             }
+
+            graphManager.Load(vertices);
+
+            return true;
+        }
+
+        private Vertex GetVertexById(int id, List<Vertex> vertices)
+        {
+            foreach (var vertex in vertices)
+                if (vertex.Index == id) return vertex;
+            return null;
         }
 
         private int GetNormalDistributionConnectionsCount()

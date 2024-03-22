@@ -61,10 +61,11 @@ namespace GraphSplit.UIElements.Paint
         }
 
 
-        public void GenerateRandomGraph(int verticesCount)
+        public bool GenerateRandomGraph(int verticesCount, int minDistance, int connectionRadius)
         {
             Clear();
-            graphManager.GenerateRandomGraph(verticesCount, width, height);
+            graphManager.UpdateUndoHistory();
+            return graphManager.GenerateRandomGraph(verticesCount, width, height, minDistance, connectionRadius);
         }
 
         public void Clear()

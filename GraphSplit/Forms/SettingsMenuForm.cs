@@ -35,7 +35,7 @@ namespace GraphSplit
             };
             trackBarVertexRadius = new TrackBar
             {
-                Minimum = 10,
+                Minimum = 5,
                 Maximum = 60,
                 TickFrequency = 5,
                 Location = new Point(80, 60),

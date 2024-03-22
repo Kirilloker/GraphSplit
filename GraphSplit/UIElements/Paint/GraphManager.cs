@@ -137,9 +137,9 @@ namespace GraphSplit.UIElements.Paint
         }
 
         public Vertex FindVertexAtPoint(Point location) => graphTools.FindVertexAtPoint(location);
-        public void GenerateRandomGraph(int verticesCount, int width, int height)
+        public bool GenerateRandomGraph(int verticesCount, int width, int height, int minDistance, int connectionRadius)
         {
-            graphTools.GenerateRandomGraph(verticesCount, width, height);
+            return graphTools.GenerateRandomGraph(verticesCount, width, height, minDistance, connectionRadius);
         }
 
         public void Load(List<Vertex> vertices)
@@ -154,25 +154,51 @@ namespace GraphSplit.UIElements.Paint
             graphUndo.Clear();
         }
 
+
+        GraphPartitioner algTest = new GraphPartitioner();
+
+
         bool firstClick = true;
         List<List<Vertex>> test = new();
-        int click = 0;
+        int click = 2;
+
 
         private void AlgorithmApply(object sender, EventArgs e)
         {
             if (firstClick == true) 
             {
-                var algTest = new GraphPartitioner();
-                test = algTest.PartitionGraph(Vertex.CloneVertices(vertices));
+                UpdateUndoHistory();
                 firstClick = false;
             }
 
-            if (click >= test.Count) return;
+            foreach (var vertex in vertices)
+            {
+                vertex.SetDefaultColor(Color.Blue);
+                vertex.ChangeBorderColor(Color.Blue);
+            }
 
-            Load(test[click]);
+            test = algTest.PartitionGraph(Vertex.CloneVertices(vertices), false, click);
+            Load(test[0]);
+            UpdateUndoHistory();
+
             click++;
-
-            return;
         }
+
+        //private void AlgorithmApply(object sender, EventArgs e)
+        //{
+        //    if (firstClick == true) 
+        //    {
+        //        var algTest = new GraphPartitioner();
+        //        test = algTest.PartitionGraph(Vertex.CloneVertices(vertices), false);
+        //        firstClick = false;
+        //    }
+
+        //    if (click >= test.Count) return;
+
+        //    Load(test[click]);
+        //    click++;
+
+        //    return;
+        //}
     }
 }
