@@ -1,0 +1,34 @@
+[
+  {
+    "Location": {
+      "X": 119,
+      "Y": 130
+    },
+    "Index": 0,
+    "AdjacentEdgesRender": []
+  },
+  {
+    "Location": {
+      "X": 212,
+      "Y": 219
+    },
+    "Index": 1,
+    "AdjacentEdgesRender": []
+  },
+  {
+    "Location": {
+      "X": 305,
+      "Y": 161
+    },
+    "Index": 2,
+    "AdjacentEdgesRender": []
+  },
+  {
+    "Location": {
+      "X": 333,
+      "Y": 58
+    },
+    "Index": 3,
+    "AdjacentEdgesRender": []
+  }
+]

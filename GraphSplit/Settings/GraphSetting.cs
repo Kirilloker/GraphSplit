@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.IO;
 
 namespace GraphSplit
 {
@@ -8,24 +10,15 @@ namespace GraphSplit
         private static int vertexBorder = 4;
         private static int edgeLineSize = 3;
 
-        const string filePath = "settings.json";
+        static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Settings", "settings.json");
 
         public static event EventHandler SettingsChange;
 
-        public static int VertexRadius
-        {
-            get { return vertexRadius; }
-        }
+        public static int VertexRadius => vertexRadius;
 
-        public static int VertexBorder
-        {
-            get { return vertexBorder; }
-        }
+        public static int VertexBorder => vertexBorder;
 
-        public static int EdgeLineSize
-        {
-            get { return edgeLineSize; }
-        }
+        public static int EdgeLineSize => edgeLineSize;
 
         public static void LoadSettings()
         {
@@ -38,9 +31,9 @@ namespace GraphSplit
                 ChangeVertexBorder((int)settings.VertexStroke);
                 ChangeEdgeLineSize((int)settings.EdgeLineSize);
             }
-            catch (Exception ex)
+            catch 
             {
-                Console.WriteLine($"Error loading settings: {ex.Message}");
+                return;
             }
         }
 
@@ -56,11 +49,13 @@ namespace GraphSplit
                 };
 
                 var jsonSettings = JsonConvert.SerializeObject(settings, Formatting.Indented);
+                // Создаем папку, если ее нет
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                 File.WriteAllText(filePath, jsonSettings);
             }
-            catch (Exception ex)
+            catch 
             {
-                Console.WriteLine($"Error saving settings: {ex.Message}");
+                return;
             }
         }
 
@@ -82,5 +77,4 @@ namespace GraphSplit
             SettingsChange?.Invoke(null, EventArgs.Empty);
         }
     }
-
 }

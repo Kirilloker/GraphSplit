@@ -15,9 +15,6 @@
         public static event EventHandler SaveCommand;
         public static event EventHandler SaveAsCommand;
 
-        public static event EventHandler Left;
-        public static event EventHandler Right;
-
         private static Command command;
 
         public static void SelectedCommand(Command selectedCommand)
@@ -46,18 +43,6 @@
                 return true;
             }
 
-            if (keyData == Keys.Left) 
-            {
-                OnLeft();
-                return true;
-            }
-
-            if (keyData == Keys.Right)
-            {
-                OnRight();
-                return true;
-            }
-
             if (keyCommandMap.TryGetValue(keyData, out Command command))
             {
                 SelectedCommand(command);
@@ -72,7 +57,7 @@
             CommandSelected?.Invoke(null, new CommandEventArgs(command));
         }
 
-        private static void OnUndoCommand()
+        public static void OnUndoCommand()
         {
             UndoCommand?.Invoke(null, EventArgs.Empty);
         }
@@ -85,16 +70,6 @@
         private static void OnSaveAsCommand()
         {
             SaveAsCommand?.Invoke(null, EventArgs.Empty);
-        }
-
-        private static void OnLeft()
-        {
-            Left?.Invoke(null, EventArgs.Empty);
-        }
-
-        private static void OnRight()
-        {
-            Right?.Invoke(null, EventArgs.Empty);
         }
 
         public static Command Command { get { return command; } }

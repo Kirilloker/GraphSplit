@@ -1,6 +1,7 @@
 ﻿using GraphSplit.GraphElements;
+using System.Drawing;
 
-namespace GraphSplit
+namespace GraphSplit.Algorithm
 {
     public class GraphPartitioner
     {
@@ -24,6 +25,12 @@ namespace GraphSplit
             steps.AddRange(uncoarsenedGraph);
 
             steps.Add(DeleteEdgeWithDifferentColor(steps[^1]));
+
+            foreach (var vertex in steps[^1])
+            {
+                vertex.SetDefaultColor(Color.Blue);
+                vertex.ChangeBorderColor(Color.Blue);
+            }
 
             if (showAllSteps == false) return new List<List<Vertex>>() { steps[^1] };
 
@@ -262,7 +269,7 @@ namespace GraphSplit
         }
 
 
-        private List<Vertex> DeleteEdgeWithDifferentColor(List<Vertex> vertices) 
+        private List<Vertex> DeleteEdgeWithDifferentColor(List<Vertex> vertices)
         {
             var cloneVertices = CloneVertices(vertices);
 
@@ -273,7 +280,7 @@ namespace GraphSplit
                 {
                     if (edge.GetOtherVertex(vertex).GetBorderColor() != vertex.GetBorderColor())
                     {
-                        BadEdges.Add(edge); 
+                        BadEdges.Add(edge);
                     }
                 }
             }

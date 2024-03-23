@@ -14,6 +14,9 @@ namespace GraphSplit.UIElements
         private const string SaveFileItemText = "Сохранить";
         private const string SaveAsFileItemText = "Сохранить как";
 
+        private const string ActionMenuText = "Действие";
+        private const string UndoActionText = "Отменить последнее действие";
+
         private const string SettingsMenuText = "Настройки";
 
         private const string AboutMenuText = "О программе";
@@ -70,6 +73,15 @@ namespace GraphSplit.UIElements
             CommandHandler.SaveAsCommand += SaveAsFileItem_Click;
 
 
+            var actionMenu = new ToolStripMenuItem(ActionMenuText);
+
+            var undoActionMenu = new ToolStripMenuItem(UndoActionText);
+            undoActionMenu.Click += UndoAction_Click;
+            actionMenu.DropDownItems.Add(undoActionMenu);
+
+            menuStrip.Items.Add(actionMenu);
+
+
             var optionsMenu = new ToolStripMenuItem(OptionsMenuText);
 
             var randomGraph10 = new ToolStripMenuItem(Generate10VertexText);
@@ -121,6 +133,11 @@ namespace GraphSplit.UIElements
         {
             DeepSettingGenerate deepForm = new DeepSettingGenerate(paintArea);
             deepForm.Show();
+        }
+
+        private void UndoAction_Click(object sender, EventArgs e)
+        {
+            CommandHandler.OnUndoCommand();
         }
 
         private void AlgorithmMenuItem_Click(object sender, EventArgs e)

@@ -8,8 +8,10 @@ namespace GraphSplit.Forms
         private RadioButton showAllStepsRadioButton;
         private RadioButton splitImmediatelyRadioButton;
         private Label stepLabel;
+        private Button firstStepButton;
         private Button previousStepButton;
         private Button nextStepButton;
+        private Button finaleStepButton;
         private Button applyButton;
 
         public GraphManager graphManager;
@@ -55,14 +57,13 @@ namespace GraphSplit.Forms
                 Location = new Point(20, 60),
                 Size = new Size(220, 20)
             };
-            showAllStepsRadioButton.CheckedChanged += ShowAllStepsRadioButton_CheckedChanged;
             this.Controls.Add(showAllStepsRadioButton);
 
             splitImmediatelyRadioButton = new RadioButton
             {
                 Text = "Разбить сразу",
                 Location = new Point(20, 90),
-                Size = new Size(140, 20),
+                Size = new Size(140, 25),
                 Checked = true             
             };
             this.Controls.Add(splitImmediatelyRadioButton);
@@ -70,11 +71,22 @@ namespace GraphSplit.Forms
             stepLabel = new Label
             {
                 Text = "Шаг 0\\0",
-                Location = new Point(85, 145),
+                Location = new Point(25, 145),
                 Size = new Size(100, 20),
                 Visible = false
             };
             this.Controls.Add(stepLabel);
+
+            firstStepButton = new Button
+            {
+                Text = "<<-",
+                Location = new Point(130, 140),
+                Size = new Size(50, 30),
+                Visible = false
+            };
+            firstStepButton.Click += FirstStepButton_Click;
+            this.Controls.Add(firstStepButton);
+
 
             previousStepButton = new Button
             {
@@ -89,12 +101,22 @@ namespace GraphSplit.Forms
             nextStepButton = new Button
             {
                 Text = "->",
-                Location = new Point(250, 140),
+                Location = new Point(260, 140),
                 Size = new Size(50, 30),
                 Visible = false
             };
             nextStepButton.Click += NextStepButton_Click;
             this.Controls.Add(nextStepButton);
+
+            finaleStepButton = new Button
+            {
+                Text = "->>",
+                Location = new Point(320, 140),
+                Size = new Size(50, 30),
+                Visible = false
+            };
+            finaleStepButton.Click += FinaleStepButton_Click;
+            this.Controls.Add(finaleStepButton);
 
             applyButton = new Button
             {
@@ -106,18 +128,21 @@ namespace GraphSplit.Forms
             this.Controls.Add(applyButton);
         }
 
-        private void ShowAllStepsRadioButton_CheckedChanged(object sender, EventArgs e)
+        private void ShowAllStepsRadioButton_CheckedChanged()
         {
             bool visible = showAllStepsRadioButton.Checked;
             stepLabel.Visible = visible;
+            firstStepButton.Visible = visible;
             previousStepButton.Visible = visible;
             nextStepButton.Visible = visible;
+            finaleStepButton.Visible = visible;
         }
 
 
 
         private void ApplyButton_Click(object sender, EventArgs e)
         {
+            ShowAllStepsRadioButton_CheckedChanged();
             int numberOfSubgraphs = (int)numberOfSubgraphsNumericUpDown.Value;
             bool showAllSteps = showAllStepsRadioButton.Checked;
 
@@ -127,6 +152,10 @@ namespace GraphSplit.Forms
                 MessageBox.Show("Не удалось разбить на подграфы", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        private void FirstStepButton_Click(object sender, EventArgs e)
+        {
+            graphManager.ShowStartAlgorithm();
+        }
 
         private void PreviousStepButton_Click(object sender, EventArgs e)
         {
@@ -136,6 +165,11 @@ namespace GraphSplit.Forms
         private void NextStepButton_Click(object sender, EventArgs e)
         {
             graphManager.ShowNextStep();
+        }
+
+        private void FinaleStepButton_Click(object sender, EventArgs e)
+        {
+            graphManager.ShowEndAlgorithm();
         }
     }
 }

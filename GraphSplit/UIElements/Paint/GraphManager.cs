@@ -1,4 +1,5 @@
-﻿using GraphSplit.GraphElements;
+﻿using GraphSplit.Algorithm;
+using GraphSplit.GraphElements;
 
 namespace GraphSplit.UIElements.Paint
 {
@@ -22,6 +23,8 @@ namespace GraphSplit.UIElements.Paint
 
         public void CreateEdge(Vertex startVertex, Vertex endVertex)
         {
+            if (startVertex.Index == endVertex.Index) return;
+
             graphUndo.UpdateUndoHistory(vertices);
 
             Edge newEdge = new Edge(startVertex, endVertex);
@@ -218,5 +221,17 @@ namespace GraphSplit.UIElements.Paint
             currentStep--;
             ShowStep();
         }
+
+        public void ShowEndAlgorithm() 
+        {
+            currentStep = stepsAlgorithm.Count - 1;
+            ShowStep();
+        }
+        public void ShowStartAlgorithm()
+        {
+            currentStep = 0;
+            ShowStep();
+        }
+
     }
 }

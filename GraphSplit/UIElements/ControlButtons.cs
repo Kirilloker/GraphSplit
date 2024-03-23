@@ -4,6 +4,8 @@
     {
         private Panel toolPanel;
         private readonly List<Button> buttons = new List<Button>();
+        static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Icon");
+
 
         public ControlButtons()
         {
@@ -29,10 +31,10 @@
 
         private void InitializeButtons()
         {
-            InitializeButton("addVertexIcon.png", ButtonAddVertex_Click, 0);
-            InitializeButton("addEdgeIcon.png", ButtonAddEdge_Click, 1);
-            InitializeButton("DeleteElementIcon.png", ButtonDeleteElement_Click, 2);
-            InitializeButton("MovingIcon.png", ButtonMoving_Click, 3);
+            InitializeButton(filePath + "\\addVertexIcon.png", ButtonAddVertex_Click, 0);
+            InitializeButton(filePath + "\\addEdgeIcon.png", ButtonAddEdge_Click, 1);
+            InitializeButton(filePath + "\\DeleteElementIcon.png", ButtonDeleteElement_Click, 2);
+            InitializeButton(filePath + "\\MovingIcon.png", ButtonMoving_Click, 3);
         }
 
         private void InitializeButton(string imageName, EventHandler clickHandler, int position)

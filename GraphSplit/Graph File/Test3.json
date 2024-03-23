@@ -1,0 +1,155 @@
+[
+  {
+    "Location": {
+      "X": 187,
+      "Y": 164
+    },
+    "Index": 0,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 0,
+        "EndVertexIndex": 4
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 132,
+      "Y": 356
+    },
+    "Index": 1,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 1,
+        "EndVertexIndex": 4
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 263,
+      "Y": 415
+    },
+    "Index": 2,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 2,
+        "EndVertexIndex": 4
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 379,
+      "Y": 154
+    },
+    "Index": 3,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 3,
+        "EndVertexIndex": 4
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 274,
+      "Y": 284
+    },
+    "Index": 4,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 1,
+        "EndVertexIndex": 4
+      },
+      {
+        "StartVertexIndex": 2,
+        "EndVertexIndex": 4
+      },
+      {
+        "StartVertexIndex": 0,
+        "EndVertexIndex": 4
+      },
+      {
+        "StartVertexIndex": 3,
+        "EndVertexIndex": 4
+      },
+      {
+        "StartVertexIndex": 4,
+        "EndVertexIndex": 5
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 545,
+      "Y": 292
+    },
+    "Index": 5,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 4,
+        "EndVertexIndex": 5
+      },
+      {
+        "StartVertexIndex": 5,
+        "EndVertexIndex": 6
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 659,
+      "Y": 314
+    },
+    "Index": 6,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 5,
+        "EndVertexIndex": 6
+      },
+      {
+        "StartVertexIndex": 6,
+        "EndVertexIndex": 7
+      },
+      {
+        "StartVertexIndex": 6,
+        "EndVertexIndex": 8
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 748,
+      "Y": 422
+    },
+    "Index": 7,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 6,
+        "EndVertexIndex": 7
+      },
+      {
+        "StartVertexIndex": 8,
+        "EndVertexIndex": 7
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 641,
+      "Y": 420
+    },
+    "Index": 8,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 6,
+        "EndVertexIndex": 8
+      },
+      {
+        "StartVertexIndex": 8,
+        "EndVertexIndex": 7
+      }
+    ]
+  }
+]

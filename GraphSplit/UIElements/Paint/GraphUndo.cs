@@ -20,6 +20,7 @@ namespace GraphSplit.UIElements.Paint
         {
             if (undoHistory.Count <= 0) return;
 
+            // Баг после алгоритма, нужно дважды отменять действие
             List<Vertex> lastState = undoHistory[undoHistory.Count - 1];
             undoHistory.RemoveAt(undoHistory.Count - 1);
             graphManager.Load(lastState);

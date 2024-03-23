@@ -1,0 +1,53 @@
+[
+  {
+    "Location": {
+      "X": 393,
+      "Y": 274
+    },
+    "Index": 0,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 1,
+        "EndVertexIndex": 0
+      },
+      {
+        "StartVertexIndex": 0,
+        "EndVertexIndex": 2
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 358,
+      "Y": 219
+    },
+    "Index": 1,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 1,
+        "EndVertexIndex": 0
+      },
+      {
+        "StartVertexIndex": 2,
+        "EndVertexIndex": 1
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 486,
+      "Y": 207
+    },
+    "Index": 2,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 2,
+        "EndVertexIndex": 1
+      },
+      {
+        "StartVertexIndex": 0,
+        "EndVertexIndex": 2
+      }
+    ]
+  }
+]

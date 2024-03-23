@@ -1,0 +1,1279 @@
+[
+  {
+    "Location": {
+      "X": 149,
+      "Y": 74
+    },
+    "Index": 0,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 3,
+        "EndVertexIndex": 0
+      },
+      {
+        "StartVertexIndex": 0,
+        "EndVertexIndex": 2
+      },
+      {
+        "StartVertexIndex": 0,
+        "EndVertexIndex": 1
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 146,
+      "Y": 131
+    },
+    "Index": 1,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 2,
+        "EndVertexIndex": 1
+      },
+      {
+        "StartVertexIndex": 1,
+        "EndVertexIndex": 3
+      },
+      {
+        "StartVertexIndex": 0,
+        "EndVertexIndex": 1
+      },
+      {
+        "StartVertexIndex": 4,
+        "EndVertexIndex": 1
+      },
+      {
+        "StartVertexIndex": 15,
+        "EndVertexIndex": 1
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 64,
+      "Y": 99
+    },
+    "Index": 2,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 2,
+        "EndVertexIndex": 1
+      },
+      {
+        "StartVertexIndex": 0,
+        "EndVertexIndex": 2
+      },
+      {
+        "StartVertexIndex": 6,
+        "EndVertexIndex": 2
+      },
+      {
+        "StartVertexIndex": 5,
+        "EndVertexIndex": 2
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 232,
+      "Y": 94
+    },
+    "Index": 3,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 1,
+        "EndVertexIndex": 3
+      },
+      {
+        "StartVertexIndex": 3,
+        "EndVertexIndex": 0
+      },
+      {
+        "StartVertexIndex": 3,
+        "EndVertexIndex": 15
+      },
+      {
+        "StartVertexIndex": 17,
+        "EndVertexIndex": 3
+      },
+      {
+        "StartVertexIndex": 3,
+        "EndVertexIndex": 18
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 154,
+      "Y": 216
+    },
+    "Index": 4,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 5,
+        "EndVertexIndex": 4
+      },
+      {
+        "StartVertexIndex": 4,
+        "EndVertexIndex": 1
+      },
+      {
+        "StartVertexIndex": 7,
+        "EndVertexIndex": 4
+      },
+      {
+        "StartVertexIndex": 13,
+        "EndVertexIndex": 4
+      },
+      {
+        "StartVertexIndex": 15,
+        "EndVertexIndex": 4
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 79,
+      "Y": 171
+    },
+    "Index": 5,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 6,
+        "EndVertexIndex": 5
+      },
+      {
+        "StartVertexIndex": 5,
+        "EndVertexIndex": 2
+      },
+      {
+        "StartVertexIndex": 5,
+        "EndVertexIndex": 4
+      },
+      {
+        "StartVertexIndex": 9,
+        "EndVertexIndex": 5
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 12,
+      "Y": 157
+    },
+    "Index": 6,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 6,
+        "EndVertexIndex": 2
+      },
+      {
+        "StartVertexIndex": 6,
+        "EndVertexIndex": 5
+      },
+      {
+        "StartVertexIndex": 9,
+        "EndVertexIndex": 6
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 140,
+      "Y": 302
+    },
+    "Index": 7,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 9,
+        "EndVertexIndex": 7
+      },
+      {
+        "StartVertexIndex": 7,
+        "EndVertexIndex": 4
+      },
+      {
+        "StartVertexIndex": 7,
+        "EndVertexIndex": 8
+      },
+      {
+        "StartVertexIndex": 10,
+        "EndVertexIndex": 7
+      },
+      {
+        "StartVertexIndex": 12,
+        "EndVertexIndex": 7
+      },
+      {
+        "StartVertexIndex": 13,
+        "EndVertexIndex": 7
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 43,
+      "Y": 357
+    },
+    "Index": 8,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 8,
+        "EndVertexIndex": 9
+      },
+      {
+        "StartVertexIndex": 7,
+        "EndVertexIndex": 8
+      },
+      {
+        "StartVertexIndex": 8,
+        "EndVertexIndex": 10
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 20,
+      "Y": 260
+    },
+    "Index": 9,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 9,
+        "EndVertexIndex": 6
+      },
+      {
+        "StartVertexIndex": 9,
+        "EndVertexIndex": 5
+      },
+      {
+        "StartVertexIndex": 9,
+        "EndVertexIndex": 7
+      },
+      {
+        "StartVertexIndex": 8,
+        "EndVertexIndex": 9
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 114,
+      "Y": 446
+    },
+    "Index": 10,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 8,
+        "EndVertexIndex": 10
+      },
+      {
+        "StartVertexIndex": 10,
+        "EndVertexIndex": 7
+      },
+      {
+        "StartVertexIndex": 10,
+        "EndVertexIndex": 11
+      },
+      {
+        "StartVertexIndex": 12,
+        "EndVertexIndex": 10
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 261,
+      "Y": 465
+    },
+    "Index": 11,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 10,
+        "EndVertexIndex": 11
+      },
+      {
+        "StartVertexIndex": 12,
+        "EndVertexIndex": 11
+      },
+      {
+        "StartVertexIndex": 11,
+        "EndVertexIndex": 14
+      },
+      {
+        "StartVertexIndex": 11,
+        "EndVertexIndex": 24
+      },
+      {
+        "StartVertexIndex": 27,
+        "EndVertexIndex": 11
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 210,
+      "Y": 360
+    },
+    "Index": 12,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 12,
+        "EndVertexIndex": 7
+      },
+      {
+        "StartVertexIndex": 12,
+        "EndVertexIndex": 10
+      },
+      {
+        "StartVertexIndex": 12,
+        "EndVertexIndex": 11
+      },
+      {
+        "StartVertexIndex": 13,
+        "EndVertexIndex": 12
+      },
+      {
+        "StartVertexIndex": 14,
+        "EndVertexIndex": 12
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 289,
+      "Y": 295
+    },
+    "Index": 13,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 14,
+        "EndVertexIndex": 13
+      },
+      {
+        "StartVertexIndex": 13,
+        "EndVertexIndex": 12
+      },
+      {
+        "StartVertexIndex": 13,
+        "EndVertexIndex": 7
+      },
+      {
+        "StartVertexIndex": 13,
+        "EndVertexIndex": 4
+      },
+      {
+        "StartVertexIndex": 15,
+        "EndVertexIndex": 13
+      },
+      {
+        "StartVertexIndex": 13,
+        "EndVertexIndex": 16
+      },
+      {
+        "StartVertexIndex": 28,
+        "EndVertexIndex": 13
+      },
+      {
+        "StartVertexIndex": 13,
+        "EndVertexIndex": 30
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 331,
+      "Y": 410
+    },
+    "Index": 14,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 11,
+        "EndVertexIndex": 14
+      },
+      {
+        "StartVertexIndex": 14,
+        "EndVertexIndex": 13
+      },
+      {
+        "StartVertexIndex": 14,
+        "EndVertexIndex": 12
+      },
+      {
+        "StartVertexIndex": 27,
+        "EndVertexIndex": 14
+      },
+      {
+        "StartVertexIndex": 28,
+        "EndVertexIndex": 14
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 221,
+      "Y": 173
+    },
+    "Index": 15,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 3,
+        "EndVertexIndex": 15
+      },
+      {
+        "StartVertexIndex": 15,
+        "EndVertexIndex": 13
+      },
+      {
+        "StartVertexIndex": 17,
+        "EndVertexIndex": 15
+      },
+      {
+        "StartVertexIndex": 15,
+        "EndVertexIndex": 16
+      },
+      {
+        "StartVertexIndex": 15,
+        "EndVertexIndex": 4
+      },
+      {
+        "StartVertexIndex": 15,
+        "EndVertexIndex": 1
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 333,
+      "Y": 197
+    },
+    "Index": 16,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 13,
+        "EndVertexIndex": 16
+      },
+      {
+        "StartVertexIndex": 16,
+        "EndVertexIndex": 17
+      },
+      {
+        "StartVertexIndex": 15,
+        "EndVertexIndex": 16
+      },
+      {
+        "StartVertexIndex": 16,
+        "EndVertexIndex": 19
+      },
+      {
+        "StartVertexIndex": 30,
+        "EndVertexIndex": 16
+      },
+      {
+        "StartVertexIndex": 16,
+        "EndVertexIndex": 36
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 309,
+      "Y": 119
+    },
+    "Index": 17,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 16,
+        "EndVertexIndex": 17
+      },
+      {
+        "StartVertexIndex": 17,
+        "EndVertexIndex": 3
+      },
+      {
+        "StartVertexIndex": 17,
+        "EndVertexIndex": 15
+      },
+      {
+        "StartVertexIndex": 19,
+        "EndVertexIndex": 17
+      },
+      {
+        "StartVertexIndex": 17,
+        "EndVertexIndex": 18
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 325,
+      "Y": 36
+    },
+    "Index": 18,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 3,
+        "EndVertexIndex": 18
+      },
+      {
+        "StartVertexIndex": 18,
+        "EndVertexIndex": 19
+      },
+      {
+        "StartVertexIndex": 17,
+        "EndVertexIndex": 18
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 419,
+      "Y": 90
+    },
+    "Index": 19,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 18,
+        "EndVertexIndex": 19
+      },
+      {
+        "StartVertexIndex": 19,
+        "EndVertexIndex": 17
+      },
+      {
+        "StartVertexIndex": 16,
+        "EndVertexIndex": 19
+      },
+      {
+        "StartVertexIndex": 19,
+        "EndVertexIndex": 21
+      },
+      {
+        "StartVertexIndex": 19,
+        "EndVertexIndex": 20
+      },
+      {
+        "StartVertexIndex": 19,
+        "EndVertexIndex": 36
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 434,
+      "Y": 29
+    },
+    "Index": 20,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 19,
+        "EndVertexIndex": 20
+      },
+      {
+        "StartVertexIndex": 20,
+        "EndVertexIndex": 22
+      },
+      {
+        "StartVertexIndex": 20,
+        "EndVertexIndex": 21
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 530,
+      "Y": 83
+    },
+    "Index": 21,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 19,
+        "EndVertexIndex": 21
+      },
+      {
+        "StartVertexIndex": 21,
+        "EndVertexIndex": 22
+      },
+      {
+        "StartVertexIndex": 23,
+        "EndVertexIndex": 21
+      },
+      {
+        "StartVertexIndex": 20,
+        "EndVertexIndex": 21
+      },
+      {
+        "StartVertexIndex": 21,
+        "EndVertexIndex": 36
+      },
+      {
+        "StartVertexIndex": 37,
+        "EndVertexIndex": 21
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 578,
+      "Y": 24
+    },
+    "Index": 22,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 21,
+        "EndVertexIndex": 22
+      },
+      {
+        "StartVertexIndex": 22,
+        "EndVertexIndex": 23
+      },
+      {
+        "StartVertexIndex": 20,
+        "EndVertexIndex": 22
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 633,
+      "Y": 84
+    },
+    "Index": 23,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 22,
+        "EndVertexIndex": 23
+      },
+      {
+        "StartVertexIndex": 23,
+        "EndVertexIndex": 21
+      },
+      {
+        "StartVertexIndex": 23,
+        "EndVertexIndex": 37
+      },
+      {
+        "StartVertexIndex": 23,
+        "EndVertexIndex": 39
+      },
+      {
+        "StartVertexIndex": 38,
+        "EndVertexIndex": 23
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 429,
+      "Y": 519
+    },
+    "Index": 24,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 11,
+        "EndVertexIndex": 24
+      },
+      {
+        "StartVertexIndex": 24,
+        "EndVertexIndex": 27
+      },
+      {
+        "StartVertexIndex": 25,
+        "EndVertexIndex": 24
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 522,
+      "Y": 488
+    },
+    "Index": 25,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 27,
+        "EndVertexIndex": 25
+      },
+      {
+        "StartVertexIndex": 25,
+        "EndVertexIndex": 24
+      },
+      {
+        "StartVertexIndex": 25,
+        "EndVertexIndex": 26
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 616,
+      "Y": 430
+    },
+    "Index": 26,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 25,
+        "EndVertexIndex": 26
+      },
+      {
+        "StartVertexIndex": 26,
+        "EndVertexIndex": 27
+      },
+      {
+        "StartVertexIndex": 29,
+        "EndVertexIndex": 26
+      },
+      {
+        "StartVertexIndex": 26,
+        "EndVertexIndex": 31
+      },
+      {
+        "StartVertexIndex": 33,
+        "EndVertexIndex": 26
+      },
+      {
+        "StartVertexIndex": 26,
+        "EndVertexIndex": 34
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 439,
+      "Y": 438
+    },
+    "Index": 27,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 24,
+        "EndVertexIndex": 27
+      },
+      {
+        "StartVertexIndex": 27,
+        "EndVertexIndex": 25
+      },
+      {
+        "StartVertexIndex": 26,
+        "EndVertexIndex": 27
+      },
+      {
+        "StartVertexIndex": 27,
+        "EndVertexIndex": 11
+      },
+      {
+        "StartVertexIndex": 27,
+        "EndVertexIndex": 14
+      },
+      {
+        "StartVertexIndex": 27,
+        "EndVertexIndex": 28
+      },
+      {
+        "StartVertexIndex": 29,
+        "EndVertexIndex": 27
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 409,
+      "Y": 368
+    },
+    "Index": 28,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 27,
+        "EndVertexIndex": 28
+      },
+      {
+        "StartVertexIndex": 28,
+        "EndVertexIndex": 14
+      },
+      {
+        "StartVertexIndex": 28,
+        "EndVertexIndex": 29
+      },
+      {
+        "StartVertexIndex": 30,
+        "EndVertexIndex": 28
+      },
+      {
+        "StartVertexIndex": 28,
+        "EndVertexIndex": 13
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 504,
+      "Y": 328
+    },
+    "Index": 29,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 28,
+        "EndVertexIndex": 29
+      },
+      {
+        "StartVertexIndex": 29,
+        "EndVertexIndex": 27
+      },
+      {
+        "StartVertexIndex": 29,
+        "EndVertexIndex": 30
+      },
+      {
+        "StartVertexIndex": 29,
+        "EndVertexIndex": 26
+      },
+      {
+        "StartVertexIndex": 29,
+        "EndVertexIndex": 34
+      },
+      {
+        "StartVertexIndex": 35,
+        "EndVertexIndex": 29
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 408,
+      "Y": 289
+    },
+    "Index": 30,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 29,
+        "EndVertexIndex": 30
+      },
+      {
+        "StartVertexIndex": 30,
+        "EndVertexIndex": 28
+      },
+      {
+        "StartVertexIndex": 13,
+        "EndVertexIndex": 30
+      },
+      {
+        "StartVertexIndex": 30,
+        "EndVertexIndex": 16
+      },
+      {
+        "StartVertexIndex": 35,
+        "EndVertexIndex": 30
+      },
+      {
+        "StartVertexIndex": 30,
+        "EndVertexIndex": 36
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 740,
+      "Y": 474
+    },
+    "Index": 31,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 26,
+        "EndVertexIndex": 31
+      },
+      {
+        "StartVertexIndex": 31,
+        "EndVertexIndex": 33
+      },
+      {
+        "StartVertexIndex": 32,
+        "EndVertexIndex": 31
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 823,
+      "Y": 405
+    },
+    "Index": 32,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 33,
+        "EndVertexIndex": 32
+      },
+      {
+        "StartVertexIndex": 32,
+        "EndVertexIndex": 31
+      },
+      {
+        "StartVertexIndex": 42,
+        "EndVertexIndex": 32
+      },
+      {
+        "StartVertexIndex": 32,
+        "EndVertexIndex": 44
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 686,
+      "Y": 350
+    },
+    "Index": 33,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 31,
+        "EndVertexIndex": 33
+      },
+      {
+        "StartVertexIndex": 33,
+        "EndVertexIndex": 32
+      },
+      {
+        "StartVertexIndex": 33,
+        "EndVertexIndex": 26
+      },
+      {
+        "StartVertexIndex": 34,
+        "EndVertexIndex": 33
+      },
+      {
+        "StartVertexIndex": 33,
+        "EndVertexIndex": 43
+      },
+      {
+        "StartVertexIndex": 33,
+        "EndVertexIndex": 44
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 640,
+      "Y": 273
+    },
+    "Index": 34,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 26,
+        "EndVertexIndex": 34
+      },
+      {
+        "StartVertexIndex": 34,
+        "EndVertexIndex": 33
+      },
+      {
+        "StartVertexIndex": 29,
+        "EndVertexIndex": 34
+      },
+      {
+        "StartVertexIndex": 35,
+        "EndVertexIndex": 34
+      },
+      {
+        "StartVertexIndex": 37,
+        "EndVertexIndex": 34
+      },
+      {
+        "StartVertexIndex": 38,
+        "EndVertexIndex": 34
+      },
+      {
+        "StartVertexIndex": 34,
+        "EndVertexIndex": 43
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 528,
+      "Y": 238
+    },
+    "Index": 35,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 35,
+        "EndVertexIndex": 30
+      },
+      {
+        "StartVertexIndex": 35,
+        "EndVertexIndex": 29
+      },
+      {
+        "StartVertexIndex": 35,
+        "EndVertexIndex": 34
+      },
+      {
+        "StartVertexIndex": 36,
+        "EndVertexIndex": 35
+      },
+      {
+        "StartVertexIndex": 35,
+        "EndVertexIndex": 37
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 448,
+      "Y": 191
+    },
+    "Index": 36,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 30,
+        "EndVertexIndex": 36
+      },
+      {
+        "StartVertexIndex": 36,
+        "EndVertexIndex": 35
+      },
+      {
+        "StartVertexIndex": 16,
+        "EndVertexIndex": 36
+      },
+      {
+        "StartVertexIndex": 19,
+        "EndVertexIndex": 36
+      },
+      {
+        "StartVertexIndex": 21,
+        "EndVertexIndex": 36
+      },
+      {
+        "StartVertexIndex": 37,
+        "EndVertexIndex": 36
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 563,
+      "Y": 155
+    },
+    "Index": 37,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 37,
+        "EndVertexIndex": 36
+      },
+      {
+        "StartVertexIndex": 37,
+        "EndVertexIndex": 21
+      },
+      {
+        "StartVertexIndex": 35,
+        "EndVertexIndex": 37
+      },
+      {
+        "StartVertexIndex": 23,
+        "EndVertexIndex": 37
+      },
+      {
+        "StartVertexIndex": 37,
+        "EndVertexIndex": 34
+      },
+      {
+        "StartVertexIndex": 38,
+        "EndVertexIndex": 37
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 708,
+      "Y": 159
+    },
+    "Index": 38,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 41,
+        "EndVertexIndex": 38
+      },
+      {
+        "StartVertexIndex": 40,
+        "EndVertexIndex": 38
+      },
+      {
+        "StartVertexIndex": 38,
+        "EndVertexIndex": 39
+      },
+      {
+        "StartVertexIndex": 38,
+        "EndVertexIndex": 23
+      },
+      {
+        "StartVertexIndex": 38,
+        "EndVertexIndex": 37
+      },
+      {
+        "StartVertexIndex": 38,
+        "EndVertexIndex": 34
+      },
+      {
+        "StartVertexIndex": 43,
+        "EndVertexIndex": 38
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 758,
+      "Y": 84
+    },
+    "Index": 39,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 23,
+        "EndVertexIndex": 39
+      },
+      {
+        "StartVertexIndex": 39,
+        "EndVertexIndex": 40
+      },
+      {
+        "StartVertexIndex": 38,
+        "EndVertexIndex": 39
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 866,
+      "Y": 135
+    },
+    "Index": 40,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 39,
+        "EndVertexIndex": 40
+      },
+      {
+        "StartVertexIndex": 40,
+        "EndVertexIndex": 41
+      },
+      {
+        "StartVertexIndex": 40,
+        "EndVertexIndex": 42
+      },
+      {
+        "StartVertexIndex": 40,
+        "EndVertexIndex": 38
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 825,
+      "Y": 229
+    },
+    "Index": 41,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 40,
+        "EndVertexIndex": 41
+      },
+      {
+        "StartVertexIndex": 42,
+        "EndVertexIndex": 41
+      },
+      {
+        "StartVertexIndex": 41,
+        "EndVertexIndex": 38
+      },
+      {
+        "StartVertexIndex": 43,
+        "EndVertexIndex": 41
+      },
+      {
+        "StartVertexIndex": 41,
+        "EndVertexIndex": 44
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 902,
+      "Y": 261
+    },
+    "Index": 42,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 40,
+        "EndVertexIndex": 42
+      },
+      {
+        "StartVertexIndex": 42,
+        "EndVertexIndex": 41
+      },
+      {
+        "StartVertexIndex": 42,
+        "EndVertexIndex": 32
+      },
+      {
+        "StartVertexIndex": 42,
+        "EndVertexIndex": 44
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 734,
+      "Y": 265
+    },
+    "Index": 43,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 34,
+        "EndVertexIndex": 43
+      },
+      {
+        "StartVertexIndex": 33,
+        "EndVertexIndex": 43
+      },
+      {
+        "StartVertexIndex": 43,
+        "EndVertexIndex": 38
+      },
+      {
+        "StartVertexIndex": 43,
+        "EndVertexIndex": 41
+      },
+      {
+        "StartVertexIndex": 43,
+        "EndVertexIndex": 44
+      }
+    ]
+  },
+  {
+    "Location": {
+      "X": 794,
+      "Y": 309
+    },
+    "Index": 44,
+    "AdjacentEdgesRender": [
+      {
+        "StartVertexIndex": 33,
+        "EndVertexIndex": 44
+      },
+      {
+        "StartVertexIndex": 43,
+        "EndVertexIndex": 44
+      },
+      {
+        "StartVertexIndex": 41,
+        "EndVertexIndex": 44
+      },
+      {
+        "StartVertexIndex": 42,
+        "EndVertexIndex": 44
+      },
+      {
+        "StartVertexIndex": 32,
+        "EndVertexIndex": 44
+      }
+    ]
+  }
+]
