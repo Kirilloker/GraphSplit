@@ -11,11 +11,14 @@ namespace GraphSplit
             countSubGraph = _countSubGraph;
 
             var coarsenedGraph = CoarsenGraph(vertices);
+            if (coarsenedGraph == null) return null;
+
             steps.AddRange(coarsenedGraph);
 
             PartitionCoarsenedGraph(coarsenedGraph[^1]);
 
             var uncoarsenedGraph = UncoarsenGraph(coarsenedGraph);
+            if (coarsenedGraph == null) return null;
             steps.AddRange(uncoarsenedGraph);
 
             steps.Add(DeleteEdgeWithDifferentColor(steps[^1]));
@@ -37,9 +40,13 @@ namespace GraphSplit
             var steps = new List<List<Vertex>>() { CloneVertices(originalVertices) };
             var currentStepVertices = CloneVertices(originalVertices);
 
+            int maxAttempts = 1000;
+            int attempts = 0;
 
             while (currentStepVertices.Count(vertex => vertex.testExist == true) > countSubGraph)
             {
+                if (attempts >= maxAttempts) return null;
+
                 var visited = new HashSet<Vertex>();
 
                 foreach (var vertex in currentStepVertices)
@@ -80,7 +87,7 @@ namespace GraphSplit
                     if (currentStepVertices.Count(vertex => vertex.testExist == true) <= countSubGraph) break;
                 }
                 currentStepVertices.RemoveAll(vertex => vertex.testExist == false);
-
+                attempts++;
             }
 
             return steps;
@@ -144,18 +151,30 @@ namespace GraphSplit
 
         private void PartitionCoarsenedGraph(List<Vertex> coarsenedGraph)
         {
-            List<Color> colors = new() 
+            List<Color> colors = new List<Color>
             {
-                Color.Red,
-                Color.Yellow, 
-                Color.Green,
-                Color.Black,
-                Color.Blue,
-                Color.Magenta,
-                Color.Gray,
-                Color.Coral,
-                Color.DeepPink
+                Color.FromArgb(255, 255, 0, 0),       // Красный
+                Color.FromArgb(255, 255, 255, 0),     // Желтый
+                Color.FromArgb(255, 0, 255, 0),       // Зеленый
+                Color.FromArgb(255, 0, 0, 0),         // Черный
+                Color.FromArgb(255, 0, 0, 255),       // Синий
+                Color.FromArgb(255, 255, 0, 255),     // Пурпурный
+                Color.FromArgb(255, 128, 128, 128),   // Серый
+                Color.FromArgb(255, 255, 127, 80),    // Коралловый
+                Color.FromArgb(255, 255, 20, 147),    // Глубокий розовый
+                Color.FromArgb(255, 0, 255, 255),     // Бирюзовый
+                Color.FromArgb(255, 128, 0, 0),       // Темно-красный
+                Color.FromArgb(255, 128, 128, 0),     // Темно-желтый
+                Color.FromArgb(255, 0, 128, 0),       // Темно-зеленый
+                Color.FromArgb(255, 128, 0, 128),     // Темно-пурпурный
+                Color.FromArgb(255, 0, 128, 128),     // Темно-бирюзовый
+                Color.FromArgb(255, 128, 128, 128),   // Темно-серый
+                Color.FromArgb(255, 220, 20, 60),     // Карминный
+                Color.FromArgb(255, 255, 105, 180),   // Розовый
+                Color.FromArgb(255, 0, 255, 127),     // Зеленовато-голубой
+                Color.FromArgb(255, 255, 0, 255)      // Фуксия
             };
+
 
             for (int i = 0; i < countSubGraph; i++)
             {
@@ -175,46 +194,21 @@ namespace GraphSplit
 
         private List<List<Vertex>> UncoarsenGraph(List<List<Vertex>> coarsenedGraphSteps)
         {
-            var steps = new List<List<Vertex>>();
-
-            var previousVertices = CloneVertices(coarsenedGraphSteps[^2]);
-
-            foreach (var prevVertex in previousVertices)
+            try
             {
-                Color newColor = GetColorByIndex(prevVertex.Index, coarsenedGraphSteps[^1]);
-                prevVertex.SetDefaultColor(newColor);
-                prevVertex.ChangeBorderColor(newColor);
+                var steps = new List<List<Vertex>>();
 
-                if (prevVertex.GetBorderColor() == Color.Blue)
-                {
-                    foreach (var prevVertex1 in coarsenedGraphSteps[^1])
-                    {
-                        if (prevVertex1.GetBorderColor() == Color.Blue) continue;
-
-                        if (prevVertex1.CombinedVerticesIndex.Contains(prevVertex.Index))
-                        {
-                            prevVertex.SetDefaultColor(prevVertex1.GetBorderColor());
-                            prevVertex.ChangeBorderColor(prevVertex1.GetBorderColor());
-                        }
-                    }
-                }
-            }
-
-            steps.Add(previousVertices);
-
-            for (int i = 3; i < coarsenedGraphSteps.Count + 1; i++)
-            {
-                previousVertices = CloneVertices(coarsenedGraphSteps[^i]);
+                var previousVertices = CloneVertices(coarsenedGraphSteps[^2]);
 
                 foreach (var prevVertex in previousVertices)
                 {
-                    Color newColor = GetColorByIndex(prevVertex.Index, steps[^1]);
+                    Color newColor = GetColorByIndex(prevVertex.Index, coarsenedGraphSteps[^1]);
                     prevVertex.SetDefaultColor(newColor);
                     prevVertex.ChangeBorderColor(newColor);
 
                     if (prevVertex.GetBorderColor() == Color.Blue)
                     {
-                        foreach (var prevVertex1 in steps[^1])
+                        foreach (var prevVertex1 in coarsenedGraphSteps[^1])
                         {
                             if (prevVertex1.GetBorderColor() == Color.Blue) continue;
 
@@ -228,11 +222,41 @@ namespace GraphSplit
                 }
 
                 steps.Add(previousVertices);
+
+                for (int i = 3; i < coarsenedGraphSteps.Count + 1; i++)
+                {
+                    previousVertices = CloneVertices(coarsenedGraphSteps[^i]);
+
+                    foreach (var prevVertex in previousVertices)
+                    {
+                        Color newColor = GetColorByIndex(prevVertex.Index, steps[^1]);
+                        prevVertex.SetDefaultColor(newColor);
+                        prevVertex.ChangeBorderColor(newColor);
+
+                        if (prevVertex.GetBorderColor() == Color.Blue)
+                        {
+                            foreach (var prevVertex1 in steps[^1])
+                            {
+                                if (prevVertex1.GetBorderColor() == Color.Blue) continue;
+
+                                if (prevVertex1.CombinedVerticesIndex.Contains(prevVertex.Index))
+                                {
+                                    prevVertex.SetDefaultColor(prevVertex1.GetBorderColor());
+                                    prevVertex.ChangeBorderColor(prevVertex1.GetBorderColor());
+                                }
+                            }
+                        }
+                    }
+
+                    steps.Add(previousVertices);
+                }
+
+                return steps;
             }
-
-
-
-            return steps;
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
 

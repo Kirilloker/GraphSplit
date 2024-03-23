@@ -79,6 +79,7 @@ namespace GraphSplit.UIElements.Paint
             graphManager.Load(vertices);
         }
 
+        public GraphManager GetGraphManager() => graphManager;
         private void MainForm_SelectedCommand(object sender, CommandEventArgs e) => RefreshPaint();
         public void RefreshPaint() => pictureBox.Invalidate();
         public void RefreshPaint(object sender, EventArgs e) => pictureBox.Invalidate();

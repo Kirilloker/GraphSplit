@@ -37,10 +37,8 @@ namespace GraphSplit.UIElements.Paint
                         rnd.Next(minDistance, height - minDistance)
                     );
 
-                    //if (!graphManager.Vertices.Any(v => Distance(v.Location, point) < minDistance))
                     if (!vertices.Any(v => Distance(v.Location, point) < minDistance))
                     {
-                        //graphManager.CreateVertex(point);
                         vertices.Add(new Vertex(point, vertices.Count));
                         placed = true;
                         break;
@@ -56,9 +54,7 @@ namespace GraphSplit.UIElements.Paint
             }
 
             foreach (var vertex in vertices)
-            //foreach (var vertex in graphManager.Vertices)
             {
-                //var potentialNeighbors = graphManager.Vertices
                 var potentialNeighbors = vertices
                     .Where(v => v != vertex && Distance(v.Location, vertex.Location) <= maxDistance)
                     .ToList();
@@ -66,7 +62,6 @@ namespace GraphSplit.UIElements.Paint
                 if (potentialNeighbors.Count == 0)
                 {
                     var closestVertex = vertices
-                    //var closestVertex = graphManager.Vertices
                         .Where(v => v != vertex)
                         .OrderBy(v => Distance(v.Location, vertex.Location))
                         .First();
@@ -80,7 +75,6 @@ namespace GraphSplit.UIElements.Paint
                 {
                     if (!vertex.IsConnectedTo(neighbor))
                     {
-                        //graphManager.CreateEdge(vertex, neighbor);
                         new Edge(GetVertexById(vertex.Index, vertices), GetVertexById(neighbor.Index, vertices));
                         vertex.ConnectedVertices.Add(neighbor);
                         neighbor.ConnectedVertices.Add(vertex);

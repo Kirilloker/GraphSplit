@@ -125,7 +125,7 @@ namespace GraphSplit.UIElements
 
         private void AlgorithmMenuItem_Click(object sender, EventArgs e)
         {
-            AlgorithmForm algorithmForm = new AlgorithmForm();
+            AlgorithmForm algorithmForm = new AlgorithmForm(paintArea.GetGraphManager());
             algorithmForm.Show();
         }
 

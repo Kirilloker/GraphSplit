@@ -1,6 +1,4 @@
-﻿using GraphSplit.Forms;
-using GraphSplit.GraphElements;
-using Vertex = GraphSplit.GraphElements.Vertex;
+﻿using GraphSplit.GraphElements;
 
 namespace GraphSplit.UIElements.Paint
 {
@@ -12,13 +10,13 @@ namespace GraphSplit.UIElements.Paint
         GraphUndo graphUndo;
         GraphTools graphTools;
         PaintArea paintArea;
+
+
         public GraphManager(PaintArea paintArea) 
         {
             this.paintArea = paintArea;
             graphUndo = new(this);
             graphTools = new(this);
-
-            AlgorithmForm.AlgoritmApply += AlgorithmApply;
         }
 
 
@@ -155,50 +153,70 @@ namespace GraphSplit.UIElements.Paint
         }
 
 
-        GraphPartitioner algTest = new GraphPartitioner();
-
-
-        bool firstClick = true;
-        List<List<Vertex>> test = new();
-        int click = 2;
-
-
-        private void AlgorithmApply(object sender, EventArgs e)
+        private void SetColorAllVertex(Color color) 
         {
-            if (firstClick == true) 
-            {
-                UpdateUndoHistory();
-                firstClick = false;
-            }
-
             foreach (var vertex in vertices)
             {
-                vertex.SetDefaultColor(Color.Blue);
-                vertex.ChangeBorderColor(Color.Blue);
+                vertex.SetDefaultColor(color);
+                vertex.ChangeBorderColor(color);
             }
-
-            test = algTest.PartitionGraph(Vertex.CloneVertices(vertices), false, click);
-            Load(test[0]);
-            UpdateUndoHistory();
-
-            click++;
         }
 
-        //private void AlgorithmApply(object sender, EventArgs e)
-        //{
-        //    if (firstClick == true) 
-        //    {
-        //        var algTest = new GraphPartitioner();
-        //        test = algTest.PartitionGraph(Vertex.CloneVertices(vertices), false);
-        //        firstClick = false;
-        //    }
 
-        //    if (click >= test.Count) return;
 
-        //    Load(test[click]);
-        //    click++;
+        List<List<Vertex>> stepsAlgorithm = new();
+        public static event Action<int, int> UpdateStepLabel;
 
-        //    return;
-        //}
+        int currentStep = 0;
+
+        public bool AlgorithmApply(int countVertices, bool showAllSteps) 
+        {
+            if (countVertices >= vertices.Count) return false;
+
+            currentStep = 0;
+            GraphPartitioner graphPartitioner = new();
+            stepsAlgorithm.Clear();
+
+            UpdateUndoHistory();
+            SetColorAllVertex(Color.Blue);
+
+            stepsAlgorithm = graphPartitioner.PartitionGraph(Vertex.CloneVertices(vertices), showAllSteps, countVertices);
+
+            if (stepsAlgorithm == null) 
+            {
+                stepsAlgorithm = new();
+                return false;
+            } 
+
+            ShowStep();
+
+            return true;
+        }
+
+        private void ShowStep() 
+        {
+            if (currentStep < 0) 
+                currentStep = 0;
+
+            if (currentStep >= stepsAlgorithm.Count) 
+                currentStep = stepsAlgorithm.Count - 1;
+
+            UpdateStepLabel?.Invoke(currentStep, stepsAlgorithm.Count - 1);
+
+            Load(stepsAlgorithm[currentStep]);
+            UpdateUndoHistory();
+        }
+
+        public void ShowNextStep() 
+        {
+            currentStep++;
+            ShowStep();
+        }
+
+        public void ShowPreviousStep() 
+        {
+            currentStep--;
+            ShowStep();
+        }
     }
 }
