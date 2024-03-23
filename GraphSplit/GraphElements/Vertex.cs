@@ -115,6 +115,15 @@
 
             return clonedVertices;
         }
+
+        public bool connectedTo(Vertex other) 
+        {
+            foreach (var edge in AdjacentEdgesRender)
+                if (edge.GetOtherVertex(this).Index == other.Index) 
+                    return true;
+            return false;
+        }
+
         public bool IsConnectedTo(Vertex other)
         {
             return ConnectedVertices.Contains(other);

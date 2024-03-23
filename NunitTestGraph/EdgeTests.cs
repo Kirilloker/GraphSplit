@@ -16,6 +16,8 @@ namespace GrpahSplitTest
 
             Assert.AreEqual(vertex1, edge.Vertex1);
             Assert.AreEqual(vertex2, edge.Vertex2);
+            Assert.IsTrue(vertex1.AdjacentEdgesRender.Contains(edge));
+            Assert.IsTrue(vertex2.AdjacentEdgesRender.Contains(edge));
         }
 
         [Test]
@@ -97,6 +99,19 @@ namespace GrpahSplitTest
             bool result = edge.IsInside(startPoint);
 
             Assert.IsTrue(result);
+        }
+
+        [Test]
+        // Тест на возвращение правильной длины ребра
+        public void GetLength_TwoPoints_ReturnsCorrectLength()
+        {
+            var vertex1 = new Vertex(new Point(0, 0), 1);
+            var vertex2 = new Vertex(new Point(0, 10), 2);
+            var edge = new Edge(vertex1, vertex2);
+
+            var length = edge.getLength();
+
+            Assert.AreEqual(10, length);
         }
     }
 }

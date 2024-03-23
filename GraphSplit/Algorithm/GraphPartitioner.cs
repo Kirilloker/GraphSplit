@@ -1,14 +1,14 @@
 ﻿using GraphSplit.GraphElements;
-using System.Drawing;
 
 namespace GraphSplit.Algorithm
 {
     public class GraphPartitioner
     {
         int countSubGraph = 4;
-        public List<List<Vertex>> PartitionGraph(List<Vertex> vertices, bool showAllSteps = true, int _countSubGraph = 4)
+        public List<List<Vertex>> PartitionGraph(List<Vertex> vertices, bool showAllSteps = true, int _countSubGraph = 4, bool shuffleVertex = false)
         {
-            vertices = vertices.Shuffle();
+            if (shuffleVertex == true)
+                vertices = vertices.Shuffle();
 
             var steps = new List<List<Vertex>> { };
             countSubGraph = _countSubGraph;
@@ -37,14 +37,14 @@ namespace GraphSplit.Algorithm
             return steps;
         }
 
-        private Vertex GetVertexById(int id, List<Vertex> vertices)
+        public Vertex GetVertexById(int id, List<Vertex> vertices)
         {
             foreach (var vertex in vertices)
                 if (vertex.Index == id) return vertex;
             return null;
         }
 
-        private List<List<Vertex>> CoarsenGraph(List<Vertex> originalVertices)
+        public List<List<Vertex>> CoarsenGraph(List<Vertex> originalVertices)
         {
             var steps = new List<List<Vertex>>() { CloneVertices(originalVertices) };
             var currentStepVertices = CloneVertices(originalVertices);
@@ -109,7 +109,7 @@ namespace GraphSplit.Algorithm
             return true;
         }
 
-        private Vertex MergeVertices(Vertex v1, Vertex v2)
+        public Vertex MergeVertices(Vertex v1, Vertex v2)
         {
             var midpoint = new Point((v1.Location.X + v2.Location.X) / 2, (v1.Location.Y + v2.Location.Y) / 2);
             var newIndex = v1.Index;
@@ -158,7 +158,7 @@ namespace GraphSplit.Algorithm
 
 
 
-        private void PartitionCoarsenedGraph(List<Vertex> coarsenedGraph)
+        public void PartitionCoarsenedGraph(List<Vertex> coarsenedGraph)
         {
             List<Color> colors = new List<Color>
             {
@@ -193,7 +193,7 @@ namespace GraphSplit.Algorithm
 
         }
 
-        private Color GetColorByIndex(int index, List<Vertex> vertices)
+        public Color GetColorByIndex(int index, List<Vertex> vertices)
         {
             foreach (var vertex in vertices)
                 if (vertex.Index == index) return vertex.GetBorderColor();
@@ -201,7 +201,7 @@ namespace GraphSplit.Algorithm
             return Color.Blue;
         }
 
-        private List<List<Vertex>> UncoarsenGraph(List<List<Vertex>> coarsenedGraphSteps)
+        public List<List<Vertex>> UncoarsenGraph(List<List<Vertex>> coarsenedGraphSteps)
         {
             try
             {
@@ -269,7 +269,7 @@ namespace GraphSplit.Algorithm
         }
 
 
-        private List<Vertex> DeleteEdgeWithDifferentColor(List<Vertex> vertices)
+        public List<Vertex> DeleteEdgeWithDifferentColor(List<Vertex> vertices)
         {
             var cloneVertices = CloneVertices(vertices);
 
