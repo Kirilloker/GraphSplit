@@ -7,6 +7,8 @@ namespace GraphSplit
         int countSubGraph = 4;
         public List<List<Vertex>> PartitionGraph(List<Vertex> vertices, bool showAllSteps = true, int _countSubGraph = 4)
         {
+            vertices = vertices.Shuffle();
+
             var steps = new List<List<Vertex>> { };
             countSubGraph = _countSubGraph;
 
