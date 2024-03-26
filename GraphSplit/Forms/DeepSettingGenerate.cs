@@ -34,7 +34,7 @@ namespace GraphSplit.Forms
             CreateLabel("Мин. расстояние между вершинами:", 20, 70);
             minDistanceTextBox = CreateTextBox(320, 70);
 
-            CreateLabel("Макс. расстояние между вершинами:", 20, 120);
+            CreateLabel("Макс. расстояние для создание ребра:", 20, 120);
             maxDistanceTextBox = CreateTextBox(320, 120);
 
             generateButton = new Button
