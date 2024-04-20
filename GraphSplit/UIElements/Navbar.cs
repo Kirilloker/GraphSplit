@@ -63,7 +63,7 @@ namespace GraphSplit.UIElements
 
             ToolStripMenuItem SettingsMenu = CreateToolStripMenuItem(SettingsMenuText);
             SettingsMenu.Click += SettingsMenu_Click;
-
+ 
             menuStrip.Items.Add(fileMenu);
             menuStrip.Items.Add(SettingsMenu);
             menuStrip.Items.Add(aboutMenu);
@@ -108,9 +108,27 @@ namespace GraphSplit.UIElements
 
             menuStrip.Items.Add(algorithmMenu);
 
+            ToolStripMenuItem profileMenu = CreateToolStripMenuItem(GraphSettings.Login);
+
+            var exitProfileMenu = new ToolStripMenuItem("Выйти");
+            exitProfileMenu.Click += (sender, e) => ExitProfile();
+            profileMenu.DropDownItems.Add(exitProfileMenu);
+
+            menuStrip.Items.Add(profileMenu);
+
+
             return menuStrip;
         }
 
+
+        private void ExitProfile() 
+        {
+            GraphSettings.ChangeLogin("");
+            GraphSettings.ChangePassword("");
+            GraphSettings.SaveSettings();
+            Authorization.Authorization.LogOut();
+            mainForm.InitializeForm();
+        }
 
         private ToolStripMenuItem CreateToolStripMenuItem(string text, params ToolStripMenuItem[] items)
         {

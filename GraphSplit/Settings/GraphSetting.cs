@@ -10,15 +10,18 @@ namespace GraphSplit
         private static int vertexBorder = 4;
         private static int edgeLineSize = 3;
 
+        private static string login = "";
+        private static string password = "";
+
         static string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Settings", "settings.json");
 
         public static event EventHandler SettingsChange;
 
         public static int VertexRadius => vertexRadius;
-
         public static int VertexBorder => vertexBorder;
-
         public static int EdgeLineSize => edgeLineSize;
+        public static string Login => login;
+        public static string Password => password;
 
         public static void LoadSettings()
         {
@@ -30,6 +33,8 @@ namespace GraphSplit
                 ChangeVertexRadius((int)settings.VertexRadius);
                 ChangeVertexBorder((int)settings.VertexStroke);
                 ChangeEdgeLineSize((int)settings.EdgeLineSize);
+                login = (string)settings.Login;
+                password = (string)settings.Password;
             }
             catch 
             {
@@ -45,7 +50,9 @@ namespace GraphSplit
                 {
                     VertexRadius = vertexRadius,
                     VertexStroke = vertexBorder,
-                    EdgeLineSize = edgeLineSize
+                    EdgeLineSize = edgeLineSize,
+                    Login = login,
+                    Password = password
                 };
 
                 var jsonSettings = JsonConvert.SerializeObject(settings, Formatting.Indented);
@@ -57,6 +64,16 @@ namespace GraphSplit
             {
                 return;
             }
+        }
+
+        public static void ChangeLogin(string _login)
+        {
+            login = _login;
+        }
+
+        public static void ChangePassword(string _password)
+        {
+            password = _password;
         }
 
         public static void ChangeVertexRadius(int newValue)

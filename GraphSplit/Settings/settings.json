@@ -1,5 +1,7 @@
 {
-  "VertexRadius": 10,
+  "VertexRadius": 12,
   "VertexStroke": 4,
-  "EdgeLineSize": 3
+  "EdgeLineSize": 3,
+  "Login": "",
+  "Password": ""
 }

@@ -1,3 +1,4 @@
+using GraphSplit.Forms;
 using GraphSplit.UIElements;
 using GraphSplit.UIElements.Paint;
 
@@ -13,28 +14,75 @@ namespace GraphSplit
         public MainForm()
         {
             InitializeComponent();
-            InitializeForm();
             GraphSettings.LoadSettings();
+            AutoLogIn();
+
+            controlButtons = new ControlButtons();
+            paintArea = new PaintArea(this);
+            navbar = new Navbar(this);
+
+            InitializeForm();
 
             this.FormClosing += (sender, e) => Application.Exit();
         }
 
         public void InitializeForm()
         {
-            controlButtons = new ControlButtons();
-            paintArea = new PaintArea(this);
-            navbar = new Navbar(this);
+            while (Controls.Count > 0) 
+            {
+                Controls.RemoveAt(0);
+            }
 
             MinimumSize = new Size(800, 600);
             MaximumSize = new Size(1300, 800);
 
-            Controls.AddRange(new Control[] { controlButtons.Initialize(), paintArea.Initialize(), navbar.Initialize()});
+            if (GraphSplit.Authorization.Authorization.IsAuthorization == false)
+            {
+                InitAuthorizationElements();
+                return;
+            }
+
+            Controls.Add(controlButtons.Initialize());
+            Controls.Add(paintArea.Initialize());
+            Controls.Add(navbar.Initialize());
 
             navbar.paintArea = paintArea;
 
             tip.Initialize(GetButtons());
 
             CommandHandler.SelectedCommand(Command.AddVertex);
+        }
+
+        private void InitAuthorizationElements() 
+        {
+            Label label = new Label();
+            label.Text = "Редактор графов";
+            label.Font = new Font(label.Font.FontFamily, 25, FontStyle.Regular);
+            label.Size = new Size(600, 100);
+
+            label.Location = new Point(470, 200);
+
+            Button button = new Button();
+            button.Text = "Авторизоваться";
+            button.Size = new Size(300, 50);
+            button.Font = new Font(button.Font.FontFamily, 16, FontStyle.Regular);
+            button.Location = new Point(490, 400);
+
+            button.Click += Authorization;
+
+            Controls.Add(button);
+            Controls.Add(label);
+        }
+
+        private void AutoLogIn()
+        {
+            GraphSplit.Authorization.Authorization.Login(GraphSettings.Login, GraphSettings.Password, true);
+        }
+
+        private void Authorization(object sender, EventArgs e)
+        {
+            AuthorizationForm form = new(this);
+            form.ShowDialog();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -46,7 +94,7 @@ namespace GraphSplit
         {
             set
             {
-                string nameForm = "�������� ������ ";
+                string nameForm = "Graph Editor";
                 nameForm += "(";
                 nameForm += string.IsNullOrEmpty(value) ? "*" : value;
                 nameForm += ")";
