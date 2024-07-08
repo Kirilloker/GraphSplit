@@ -43,8 +43,8 @@ namespace GraphSplit
             }
 
             Controls.Add(controlButtons.Initialize());
-            Controls.Add(paintArea.Initialize());
             Controls.Add(navbar.Initialize());
+            Controls.Add(paintArea.Initialize());
 
             navbar.paintArea = paintArea;
 

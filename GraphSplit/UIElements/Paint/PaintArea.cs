@@ -25,7 +25,7 @@ namespace GraphSplit.UIElements.Paint
             pictureBox = new PictureBox
             {
                 Size = new Size(width, height),
-                Location = new Point((mainForm.Width - width) / 2, (mainForm.Height - height) / 2),
+                Location = new Point((mainForm.Width - width) / 2 + 65, (mainForm.Height - height) / 2 + 100),
                 BackColor = Color.White
             };
 
